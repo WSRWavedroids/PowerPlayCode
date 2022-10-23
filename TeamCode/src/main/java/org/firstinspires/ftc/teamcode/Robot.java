@@ -14,6 +14,12 @@ public class Robot {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
+
+    public DcMotor slide;
+    public DcMotor turntable;
+
+
+
     public DcMotor duckSpinner;
     public DcMotor clawArm;
     public CRServo claw;
@@ -40,6 +46,9 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        slide = hardwareMap.get(DcMotor.class, "slide");
+        turntable = hardwareMap.get(DcMotor.class, "turntable");
+
         duckSpinner = hardwareMap.get(DcMotor.class, "duckSpinner");
         clawArm = hardwareMap.get(DcMotor.class, "clawArm");
         claw = hardwareMap.get(CRServo.class, "claw");
@@ -52,6 +61,8 @@ public class Robot {
         this.duckSpinner = duckSpinner;
         this.clawArm = clawArm;
         this.claw = claw;
+        this.slide = slide;
+        this.turntable = turntable;
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -60,6 +71,8 @@ public class Robot {
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         duckSpinner.setDirection(DcMotor.Direction.FORWARD);
         clawArm.setDirection(DcMotor.Direction.FORWARD);
+        slide.setDirection(DcMotor.Direction.FORWARD);
+        turntable.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
