@@ -28,9 +28,9 @@
  */
 
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -123,11 +123,23 @@ public class POWERPLAY_TeleOp extends OpMode {
         }
 
         if (gamepad2.left_stick_y > 0.5){
-            // theoreticalMotor.setPower(speed)
-            // theoreticalMotor.setDirection(DcMotor.Direction.FORWARD)
+            robot.slide.setPower(0.02);
+            robot.slide.setDirection(DcMotor.Direction.FORWARD);
         } else if (gamepad2.left_stick_y < -0.5){
-            // theoreticalMotor.setPower(speed)
-            // theoreticalMotor.setDirection(DcMotor.Direction.REVERSE)
+            robot.slide.setPower(0.75);
+            robot.slide.setDirection(DcMotor.Direction.REVERSE);
+        } else {
+            robot.holdArm();
+        }
+
+        if (gamepad2.right_stick_x > 0.5){
+            robot.turntable.setPower(0.5);
+            robot.turntable.setDirection(DcMotor.Direction.FORWARD);
+        } else if (gamepad2.right_stick_x < -0.5){
+            robot.turntable.setPower(0.5);
+            robot.turntable.setDirection(DcMotor.Direction.REVERSE);
+        } else {
+            robot.turntable.setPower(0);
         }
 
 

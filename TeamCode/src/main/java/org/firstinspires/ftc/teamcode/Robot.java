@@ -14,6 +14,8 @@ public class Robot {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
+    public DcMotor slide;
+    public DcMotor turntable;
     //public DcMotor duckSpinner;
     //public DcMotor clawArm;
     //public CRServo claw;
@@ -40,6 +42,8 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        slide = hardwareMap.get(DcMotor.class, "slide");
+        turntable = hardwareMap.get(DcMotor.class, "turntable");
         //duckSpinner = hardwareMap.get(DcMotor.class, "duckSpinner");
         //clawArm = hardwareMap.get(DcMotor.class, "clawArm");
         //claw = hardwareMap.get(CRServo.class, "claw");
@@ -49,6 +53,8 @@ public class Robot {
         this.frontRightDrive = frontRightDrive;
         this.backLeftDrive = backLeftDrive;
         this.backRightDrive = backRightDrive;
+        this.slide = slide;
+        this.turntable = turntable;
         //this.duckSpinner = duckSpinner;
         //this.clawArm = clawArm;
         //this.claw = claw;
@@ -207,8 +213,8 @@ public class Robot {
     }
 
     public void holdArm(){
-       // clawArm.setDirection(DcMotor.Direction.REVERSE);
-       // clawArm.setPower(0.1);
+       slide.setDirection(DcMotor.Direction.REVERSE);
+       slide.setPower(0.1);
     }
 
 
