@@ -4,9 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import java.io.File;
+
 
 public class Robot {
 
@@ -16,9 +17,7 @@ public class Robot {
     public DcMotor backRightDrive;
     public DcMotor slide;
     public DcMotor turntable;
-    //public DcMotor duckSpinner;
-    //public DcMotor clawArm;
-    //public CRServo claw;
+    public Servo whiteClaw;
     public Telemetry telemetry;
 
     //init and declare war
@@ -44,20 +43,16 @@ public class Robot {
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
-        //duckSpinner = hardwareMap.get(DcMotor.class, "duckSpinner");
-        //clawArm = hardwareMap.get(DcMotor.class, "clawArm");
-        //claw = hardwareMap.get(CRServo.class, "claw");
+        whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
 
 
-        this.frontLeftDrive = frontLeftDrive;
-        this.frontRightDrive = frontRightDrive;
-        this.backLeftDrive = backLeftDrive;
-        this.backRightDrive = backRightDrive;
-        this.slide = slide;
-        this.turntable = turntable;
-        //this.duckSpinner = duckSpinner;
-        //this.clawArm = clawArm;
-        //this.claw = claw;
+        //this.frontLeftDrive = frontLeftDrive;
+        //this.frontRightDrive = frontRightDrive;
+        //this.backLeftDrive = backLeftDrive;
+        //this.backRightDrive = backRightDrive;
+        //this.slide = slide;
+        //this.turntable = turntable;
+        //this.whiteClaw = whiteClaw;
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -79,12 +74,7 @@ public class Robot {
 
 
     public boolean isWheelsBusy(){
-        if(backLeftDrive.isBusy() || frontLeftDrive.isBusy() || frontRightDrive.isBusy() || backRightDrive.isBusy()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return backLeftDrive.isBusy() || frontLeftDrive.isBusy() || frontRightDrive.isBusy() || backRightDrive.isBusy();
     }
 
 
@@ -162,8 +152,9 @@ public class Robot {
     }
 
     public void openAndCloseClaw (double position){
-       // telemetry.addData("ServoPort", "Port: " + claw.getPortNumber());
-      //  claw.getController().setServoPosition(claw.getPortNumber(), position);
+        //telemetry.addData("ServoPort", "Port: " + whiteClaw.getPortNumber());
+        whiteClaw.getController().setServoPosition(whiteClaw.getPortNumber(), position);
+        //whiteClaw.setPosition(position);
 
         if (position == 0){
             telemetry.addData("Claw", "Closed");

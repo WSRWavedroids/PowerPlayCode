@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 /**
  * This file is our iterative (Non-Linear) "OpMode" for TeleOp.
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -142,6 +143,23 @@ public class POWERPLAY_TeleOp extends OpMode {
             robot.turntable.setPower(0);
         }
 
+        // This section checks if the A or B buttons on the second controller are being presses and moves the claw.
+
+        //telemetry.addData("ServoPort", "Port: " + robot.whiteClaw.getPortNumber());
+        if (gamepad2.a) {
+            robot.openAndCloseClaw(0);
+        } else if (gamepad2.b) {
+            robot.openAndCloseClaw(1);
+        }
+
+        // This section checks what position the claw servo is in and updates the driver hub accordingly
+
+        if (robot.whiteClaw.getController().getServoPosition(robot.whiteClaw.getPortNumber()) == 0){
+           telemetry.addData("Claw", "Closed");
+        } else if (robot.whiteClaw.getController().getServoPosition(robot.whiteClaw.getPortNumber()) == 0.4){
+        telemetry.addData("Claw", "Open");
+    }
+
 
 
     }
@@ -178,7 +196,7 @@ public class POWERPLAY_TeleOp extends OpMode {
         float leftX = this.gamepad1.left_stick_x;
         float leftY = this.gamepad1.left_stick_y;
         float rightX = this.gamepad1.right_stick_x;
-
+// do we need a rightY????
         float[] motorPowers = new float[4];
         motorPowers[0] = (leftY - leftX - rightX);
         motorPowers[1] = (leftY + leftX + rightX);
