@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -19,6 +20,7 @@ public class Robot {
     public DcMotor turntable;
     public Servo whiteClaw;
     public Telemetry telemetry;
+    public ServoController ServoController;
 
     //init and declare war
     public OpMode opmode;
@@ -44,15 +46,16 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
+        //ServoController = hardwareMap.get(ServoController.class);
 
 
-        //this.frontLeftDrive = frontLeftDrive;
-        //this.frontRightDrive = frontRightDrive;
-        //this.backLeftDrive = backLeftDrive;
-        //this.backRightDrive = backRightDrive;
-        //this.slide = slide;
-        //this.turntable = turntable;
-        //this.whiteClaw = whiteClaw;
+        this.frontLeftDrive = frontLeftDrive;
+        this.frontRightDrive = frontRightDrive;
+        this.backLeftDrive = backLeftDrive;
+        this.backRightDrive = backRightDrive;
+        this.slide = slide;
+        this.turntable = turntable;
+        this.whiteClaw = whiteClaw;
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -67,6 +70,8 @@ public class Robot {
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //ServoController.pwmEnable();
 
         telemetry.addData("Status", "Initialized");
 
@@ -152,9 +157,9 @@ public class Robot {
     }
 
     public void openAndCloseClaw (double position){
-        //telemetry.addData("ServoPort", "Port: " + whiteClaw.getPortNumber());
-        whiteClaw.getController().setServoPosition(whiteClaw.getPortNumber(), position);
-        //whiteClaw.setPosition(position);
+        telemetry.addData("ServoPort", "Port: " + whiteClaw.getPortNumber());
+        whiteClaw.getController().setServoPosition(whiteClaw.getPortNumber(), whiteClaw.getController().getServoPosition(whiteClaw.getPortNumber()) + 0.05);
+        whiteClaw.setPosition(position);
 
         if (position == 0){
             telemetry.addData("Claw", "Closed");

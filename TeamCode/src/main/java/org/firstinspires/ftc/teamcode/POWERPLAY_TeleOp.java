@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -122,9 +123,9 @@ public class POWERPLAY_TeleOp extends OpMode {
         } else if (speed == 0.75) {
             telemetry.addData("Speed", "Normal Boi");
         }
-
+//The motor might need a stopping spot for the viper slide. comment made by CK
         if (gamepad2.left_stick_y > 0.5){
-            robot.slide.setPower(0.02);
+            robot.slide.setPower(0.25);
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
         } else if (gamepad2.left_stick_y < -0.5){
             robot.slide.setPower(0.75);
@@ -135,10 +136,10 @@ public class POWERPLAY_TeleOp extends OpMode {
 
         if (gamepad2.right_stick_x > 0.5){
             robot.turntable.setPower(0.5);
-            robot.turntable.setDirection(DcMotor.Direction.FORWARD);
+            robot.turntable.setDirection(DcMotor.Direction.REVERSE);
         } else if (gamepad2.right_stick_x < -0.5){
             robot.turntable.setPower(0.5);
-            robot.turntable.setDirection(DcMotor.Direction.REVERSE);
+            robot.turntable.setDirection(DcMotor.Direction.FORWARD);
         } else {
             robot.turntable.setPower(0);
         }
@@ -147,9 +148,9 @@ public class POWERPLAY_TeleOp extends OpMode {
 
         //telemetry.addData("ServoPort", "Port: " + robot.whiteClaw.getPortNumber());
         if (gamepad2.a) {
-            robot.openAndCloseClaw(0);
+            robot.openAndCloseClaw(0.25);
         } else if (gamepad2.b) {
-            robot.openAndCloseClaw(1);
+            robot.openAndCloseClaw(0.5);
         }
 
         // This section checks what position the claw servo is in and updates the driver hub accordingly
@@ -160,7 +161,26 @@ public class POWERPLAY_TeleOp extends OpMode {
         telemetry.addData("Claw", "Open");
     }
 
+      /*  if (gamepad2.x) {
+            robot.slide.setPower(0.02);
+            robot.slide.setDirection(DcMotor.Direction.FORWARD);
 
+
+
+            robot.slide.setTargetPosition(robot.slide.getCurrentPosition() + 50);
+            robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.slide.setPower(0.75);
+
+            while (robot.slide.isBusy()) {
+                robot.tellMotorOutput();
+            }
+
+            robot.slide.setPower(0);
+            robot.encoderRunningMode();
+            robot.stopAllMotors();
+        }
+
+       */
 
     }
 
@@ -197,6 +217,7 @@ public class POWERPLAY_TeleOp extends OpMode {
         float leftY = this.gamepad1.left_stick_y;
         float rightX = this.gamepad1.right_stick_x;
 // do we need a rightY????
+        //Sorry If I broke it
         float[] motorPowers = new float[4];
         motorPowers[0] = (leftY - leftX - rightX);
         motorPowers[1] = (leftY + leftX + rightX);
