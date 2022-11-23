@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -20,7 +21,7 @@ public class Robot {
     public DcMotor turntable;
     public Servo whiteClaw;
     public Telemetry telemetry;
-    public ServoController ServoController;
+    public ColorSensor colorSensor;
 
     //init and declare war
     public OpMode opmode;
@@ -46,7 +47,7 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
-        //ServoController = hardwareMap.get(ServoController.class);
+        colorSensor = hardwareMap.get(ColorSensor.class, "betterMason");
 
 
         this.frontLeftDrive = frontLeftDrive;
@@ -56,14 +57,14 @@ public class Robot {
         this.slide = slide;
         this.turntable = turntable;
         this.whiteClaw = whiteClaw;
+        this.colorSensor = colorSensor;
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
-        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        //duckSpinner.setDirection(DcMotor.Direction.FORWARD);
-        //clawArm.setDirection(DcMotor.Direction.FORWARD);
+        //Flipped the reverse and forward values
+        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -71,7 +72,6 @@ public class Robot {
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //ServoController.pwmEnable();
 
         telemetry.addData("Status", "Initialized");
 
@@ -84,11 +84,11 @@ public class Robot {
 
 
     public void turnDuckSpinner(double power){
-       // duckSpinner.setPower(power);
+        //duckSpinner.setPower(power);
         telemetry.addData("Ducks", "Whee!");
     }
     public void stopDuckSpinner(){
-      //  duckSpinner.setPower(0);
+      // duckSpinner.setPower(0);
         telemetry.addData("Ducks", "Whee!");
     }
 
@@ -112,12 +112,12 @@ public class Robot {
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
-
+//Changed negative ticks to positive
         } else if (direction == "Forward"){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Backward") {
             frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
@@ -125,29 +125,17 @@ public class Robot {
             backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
-           /* else if (direction == "turnRight" )   {
-                frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-                frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
-                backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-                backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
-            }*/
         }
     }
 
     public void positionRunningMode(){
-
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     }
 
-    /* lic void powerSet(double frontLeftSpeed, double frontRightSpeed, double backLeftSpeed, double backRightSpeed) {
-            frontLeftDrive.setPower(frontLeftSpeed);
-            frontRightDrive.setPower(frontRightSpeed);
-            backLeftDrive.setPower(backLeftSpeed);
-            backRightDrive.setPower(backRightspeed);*/
+
     public void powerSet(double speed) {
         frontLeftDrive.setPower(speed);
         frontRightDrive.setPower(speed);
@@ -157,8 +145,6 @@ public class Robot {
     }
 
     public void openAndCloseClaw (double position){
-        telemetry.addData("ServoPort", "Port: " + whiteClaw.getPortNumber());
-        whiteClaw.getController().setServoPosition(whiteClaw.getPortNumber(), whiteClaw.getController().getServoPosition(whiteClaw.getPortNumber()) + 0.05);
         whiteClaw.setPosition(position);
 
         if (position == 0){
@@ -188,8 +174,8 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-     //   telemetry.addData("Motors", "Duck Spinner (%.2f)", duckSpinner.getPower());
-       // telemetry.addData("Motors", "Arm (%.2f)", clawArm.getPower());
+        telemetry.addData("Motors", "Slide Arm (%.2f)", slide.getPower());
+        telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
         telemetry.update();
     }
 
@@ -197,15 +183,22 @@ public class Robot {
         // returns the inches * ticks per rotation / wheel circ
         return ((inches/12.25) * 537.6 / .5);
         //todo Reference that 1 inch ~= 50 ticks
+
+
+
+
+
+
     }
 
-    public void moveArm(String direction, double power){
+    public void moveArm(String direction){
         if (direction == "Up"){
-          //  clawArm.setDirection(DcMotor.Direction.REVERSE);
+            slide.setPower(0.75);
+            slide.setDirection(DcMotor.Direction.REVERSE);
         } else if (direction == "Down"){
-           // clawArm.setDirection(DcMotor.Direction.FORWARD);
+            slide.setPower(0.25);
+            slide.setDirection(DcMotor.Direction.FORWARD);
         }
-    //    clawArm.setPower(power);
     }
 
     public void holdArm(){

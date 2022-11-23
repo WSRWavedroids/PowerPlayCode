@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -123,22 +124,27 @@ public class POWERPLAY_TeleOp extends OpMode {
         } else if (speed == 0.75) {
             telemetry.addData("Speed", "Normal Boi");
         }
+
 //The motor might need a stopping spot for the viper slide. comment made by CK
         if (gamepad2.left_stick_y > 0.5){
+            speed = 0.5;
             robot.slide.setPower(0.25);
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
         } else if (gamepad2.left_stick_y < -0.5){
+            speed = 0.5;
             robot.slide.setPower(0.75);
             robot.slide.setDirection(DcMotor.Direction.REVERSE);
         } else {
             robot.holdArm();
         }
 
+        //Moves the turntable based on the x-coordinate of the right joystick
+        //I fixed the inverted controlls... again CK
         if (gamepad2.right_stick_x > 0.5){
-            robot.turntable.setPower(0.5);
+            robot.turntable.setPower(0.25);
             robot.turntable.setDirection(DcMotor.Direction.REVERSE);
         } else if (gamepad2.right_stick_x < -0.5){
-            robot.turntable.setPower(0.5);
+            robot.turntable.setPower(0.25);
             robot.turntable.setDirection(DcMotor.Direction.FORWARD);
         } else {
             robot.turntable.setPower(0);
@@ -146,41 +152,30 @@ public class POWERPLAY_TeleOp extends OpMode {
 
         // This section checks if the A or B buttons on the second controller are being presses and moves the claw.
 
-        //telemetry.addData("ServoPort", "Port: " + robot.whiteClaw.getPortNumber());
-        if (gamepad2.a) {
-            robot.openAndCloseClaw(0.25);
-        } else if (gamepad2.b) {
-            robot.openAndCloseClaw(0.5);
+
+
+//other possible code is this without this
+        if (this.gamepad2.a) {
+            robot.openAndCloseClaw(0);
+        } else if (this.gamepad2.b) {
+            robot.openAndCloseClaw(.3);
         }
 
-        // This section checks what position the claw servo is in and updates the driver hub accordingly
 
-        if (robot.whiteClaw.getController().getServoPosition(robot.whiteClaw.getPortNumber()) == 0){
-           telemetry.addData("Claw", "Closed");
-        } else if (robot.whiteClaw.getController().getServoPosition(robot.whiteClaw.getPortNumber()) == 0.4){
-        telemetry.addData("Claw", "Open");
-    }
 
-      /*  if (gamepad2.x) {
+        if (gamepad2.right_bumper) {
             robot.slide.setPower(0.02);
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
-
-
 
             robot.slide.setTargetPosition(robot.slide.getCurrentPosition() + 50);
             robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.slide.setPower(0.75);
-
-            while (robot.slide.isBusy()) {
-                robot.tellMotorOutput();
-            }
 
             robot.slide.setPower(0);
             robot.encoderRunningMode();
             robot.stopAllMotors();
         }
 
-       */
 
     }
 
@@ -203,26 +198,26 @@ public class POWERPLAY_TeleOp extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
-        robot.frontLeftDrive.setPower(motorPowers[0]);
-        robot.frontRightDrive.setPower(motorPowers[1]);
-        robot.backLeftDrive.setPower(motorPowers[2]);
-        robot.backRightDrive.setPower(motorPowers[3]);
+        robot.frontLeftDrive.setPower(-motorPowers[0]);
+        robot.frontRightDrive.setPower(-motorPowers[1]);
+        robot.backLeftDrive.setPower(-motorPowers[2]);
+        robot.backRightDrive.setPower(-motorPowers[3]);
     }
 
     private void singleJoystickDrive () {
         // We don't really know how this function works, but it makes the wheels drive, so we don't question it.
         // Don't mess with this function unless you REALLY know what you're doing.
 
-        float leftX = this.gamepad1.left_stick_x;
-        float leftY = this.gamepad1.left_stick_y;
-        float rightX = this.gamepad1.right_stick_x;
+        float rightX = -this.gamepad1.right_stick_x; //
+        float leftY = -this.gamepad1.left_stick_y;
+        float leftX = this.gamepad1.left_stick_x; //
 // do we need a rightY????
         //Sorry If I broke it
         float[] motorPowers = new float[4];
-        motorPowers[0] = (leftY - leftX - rightX);
-        motorPowers[1] = (leftY + leftX + rightX);
-        motorPowers[2] = (leftY + leftX - rightX);
-        motorPowers[3] = (leftY - leftX + rightX);
+        motorPowers[0] = (leftY + leftX + rightX); //swapped  to +
+        motorPowers[1] = (leftY - leftX - rightX);//swapped  to -
+        motorPowers[2] = (leftY - leftX + rightX);
+        motorPowers[3] = (leftY + leftX - rightX);
 
         float max = getLargestAbsVal(motorPowers);
         if (max < 1) {

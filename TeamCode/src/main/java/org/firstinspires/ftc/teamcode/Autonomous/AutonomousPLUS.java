@@ -40,7 +40,6 @@ import org.firstinspires.ftc.teamcode.Robot;
 /**
  * This is the autonomous mode. It moves the robot without us having to touch the controller.
  * Previous programmers really sucked at explaining what any of this meant, so we're trying to do better.
- *
  */
 
 //todo Create function to convert tick values based on speed.
@@ -49,7 +48,8 @@ public abstract class AutonomousPLUS extends LinearOpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
 
-    public double speed = 0.5;
+    public double speed = 0.4;
+    public int parkingZone;
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     public Robot robot = new Robot();
@@ -62,16 +62,13 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
     }
 
-
+//I think the setTargets Function is broken. Motors don't stop at the right place
     public void moveRobotForward(int ticks) {
         if (opModeIsActive()){
             robot.setTargets("Forward", ticks);
             robot.positionRunningMode();
         }
         robot.powerSet(speed);
-       /* if (moveRobotForward"") {
-            robot.powerSet(speed, speed, speed, speed)
-            );*/
 
         while (opModeIsActive() &&
                 robot.isWheelsBusy()) {
@@ -82,7 +79,6 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         robot.stopAllMotors();
         robot.encoderRunningMode();
         robot.stopAllMotors();
-
     }
 
 
@@ -100,8 +96,6 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
-
-
         }
 
     }
@@ -114,14 +108,12 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
             while (opModeIsActive() &&
                     robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+                    robot.tellMotorOutput();
                 //nothings here
             }
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
-
-
         }
     }
 
@@ -140,8 +132,6 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
-
-
         }
     }
 
@@ -160,46 +150,28 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
-
-
         }
     }
 
+    public void turnRobotLeft(int ticks) {
 
-    public void turnDuckSpinnerBlue(double maxSeconds){
-     //   robot.duckSpinner.setPower(0.65);
+        if (opModeIsActive()) {
+            robot.setTargets("left", ticks);
+            robot.positionRunningMode();
+            robot.powerSet(speed);
 
-        while (opModeIsActive() && getRuntime() < maxSeconds) {
-            robot.tellMotorOutput();
-            //nothings here
+            while (opModeIsActive() &&
+                    robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+                //nothings here
+            }
+
+            robot.stopAllMotors();
+            robot.encoderRunningMode();
         }
-
-        robot.stopAllMotors();
 
     }
 
-    public void turnDuckSpinnerRed(double maxSeconds){
-       // robot.duckSpinner.setPower(-0.65);
-
-        while (opModeIsActive() && getRuntime() < maxSeconds) {
-            robot.tellMotorOutput();
-            //nothings here
-        }
-
-        robot.stopAllMotors();
-
-    }
-
-    public void stopDuckSpinner(double maxSeconds){
-       // robot.duckSpinner.setPower(0);
-
-        while (opModeIsActive() && getRuntime() < maxSeconds) {
-            robot.tellMotorOutput();
-            //nothings here
-        }
-
-        robot.stopAllMotors();
-    }
 
     public void prepareNextAction(long pause){
         sleep(pause);
@@ -208,12 +180,22 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
     public void moveArm(String direction, double power){
         if (direction == "Up"){
-       //     robot.clawArm.setDirection(DcMotor.Direction.REVERSE);
+            robot.slide.setPower(0.75);
+            robot.slide.setDirection(DcMotor.Direction.REVERSE);
         } else if (direction == "Down"){
-         //   robot.clawArm.setDirection(DcMotor.Direction.FORWARD);
+            robot.slide.setPower(0.25);
+            robot.slide.setDirection(DcMotor.Direction.FORWARD);
         }
+    }
 
-       // robot.clawArm.setPower(power);
+    public void checkForColor(){
+        if (robot.colorSensor.green() < 20 && robot.colorSensor.red() < 20 && robot.colorSensor.blue() > 150){
+            parkingZone = 1;
+        } else if (robot.colorSensor.green() > 200 && robot.colorSensor.red() > 200 && robot.colorSensor.blue() < 20){
+            parkingZone = 2;
+        } else if (robot.colorSensor.green() < 20 && robot.colorSensor.red() < 20 && robot.colorSensor.blue() < 20){
+            parkingZone = 3;
+        }
     }
 
 }

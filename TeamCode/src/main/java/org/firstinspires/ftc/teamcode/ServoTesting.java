@@ -31,7 +31,7 @@ public abstract class ServoTesting extends OpMode {
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        armServo = hardwareMap.servo.get("arm_servo");
+        armServo = hardwareMap.servo.get("whiteClaw");
         gripServo = hardwareMap.servo.get("grip_servo");
         contServo = (CRServo) hardwareMap.servo.get("cont_servo");
 
@@ -58,7 +58,7 @@ public abstract class ServoTesting extends OpMode {
             // check the gamepad buttons and if pressed, increment the appropriate position
             // variable to change the servo location.
 
-            // move arm down A button if not already at lowest position.
+            // move arm down A button if not already at lowest position./
             if (gamepad2.a && armPosition > MIN_POSITION) armPosition -= .01;
 
             // move arm down B button if not already at highest position.
