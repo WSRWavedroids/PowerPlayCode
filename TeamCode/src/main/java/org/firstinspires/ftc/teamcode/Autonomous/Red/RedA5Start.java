@@ -13,12 +13,13 @@ public class RedA5Start extends AutonomousPLUS {
 
         //Do this to pass inspection.
         waitForStart();
+        moveToParkingZone("Red A5");
 
         //moveRobotRight(960);
         //prepareNextAction(500);
 
-        moveRobotForward(1400);
-        prepareNextAction(400);
+        //moveRobotForward(1400);
+        //prepareNextAction(400);
 
     }
     //so uh yeah we totally made this for outreach

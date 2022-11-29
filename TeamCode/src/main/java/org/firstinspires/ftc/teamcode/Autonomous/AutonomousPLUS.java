@@ -49,7 +49,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     public double speed = 0.4;
-    public int parkingZone;
+
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     public Robot robot = new Robot();
@@ -188,14 +188,105 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         }
     }
 
-    public void checkForColor(){
-        if (robot.colorSensor.green() < 20 && robot.colorSensor.red() < 20 && robot.colorSensor.blue() > 150){
-            parkingZone = 1;
-        } else if (robot.colorSensor.green() > 200 && robot.colorSensor.red() > 200 && robot.colorSensor.blue() < 20){
-            parkingZone = 2;
-        } else if (robot.colorSensor.green() < 20 && robot.colorSensor.red() < 20 && robot.colorSensor.blue() < 20){
-            parkingZone = 3;
+    public void moveToParkingZone(String startingPosition){
+
+        robot.checkForColor();
+
+        if (startingPosition == "Blue A2"){
+
+            if (robot.parkingZone == 1){
+
+                moveRobotForward(2000);
+                prepareNextAction(200);
+                moveRobotLeft(3000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 2){
+
+                moveRobotForward(2000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 3){
+
+                moveRobotRight(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            }
+
+        } else if (startingPosition == "Blue A5"){
+
+            if (robot.parkingZone == 1){
+
+                moveRobotLeft(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 2){
+
+                moveRobotForward(2000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 3){
+
+                moveRobotRight(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            }
+
+        } else if (startingPosition == "Red A2"){
+
+            if (robot.parkingZone == 1){
+
+                moveRobotLeft(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 2){
+
+                moveRobotForward(2000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 3){
+
+                moveRobotRight(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            }
+
+        } else if (startingPosition == "Red A5"){
+
+            if (robot.parkingZone == 1){
+
+                moveRobotLeft(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 2){
+
+                moveRobotForward(2000);
+                prepareNextAction(200);
+
+            } else if (robot.parkingZone == 3){
+
+                moveRobotRight(2000);
+                prepareNextAction(200);
+                moveRobotForward(3000);
+                prepareNextAction(200);
+
+            }
+
         }
+
+
     }
 
 }

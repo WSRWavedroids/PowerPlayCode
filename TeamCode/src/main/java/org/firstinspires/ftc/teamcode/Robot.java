@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -26,11 +28,19 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
+    public double parkingZone;
+    public String ColorSensorColor;
 
     //construct robot
     public Robot() {
 
     }
+
+    //public enum ColorSensorColor {
+      //  RED,
+        //GREEN,
+        //BLUE
+    //}
 
     //Initialize motors and servos
     public void init(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -169,6 +179,7 @@ public class Robot {
         backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    @SuppressLint("DefaultLocale")
     public void tellMotorOutput(){
         telemetry.addData("Motors", String.format("FL Power(%.2f) FL Location (%d) FL Target (%d)", frontLeftDrive.getPower(), frontLeftDrive.getCurrentPosition(), frontLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
@@ -176,6 +187,10 @@ public class Robot {
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
         telemetry.addData("Motors", "Slide Arm (%.2f)", slide.getPower());
         telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
+        telemetry.addData("Colors", String.format("Blue(%d) Red (%d) Green (%d) Light (%d) Hue (%d)", colorSensor.blue(), colorSensor.red(), colorSensor.green(), colorSensor.alpha(), colorSensor.argb()));
+        checkForColor();
+        telemetry.addData("Colors", "Zone(%d)", parkingZone);
+
         telemetry.update();
     }
 
@@ -206,5 +221,49 @@ public class Robot {
        slide.setPower(0.1);
     }
 
+
+
+
+    public void getColorFromColorSensor(){
+
+        float redSaturation = colorSensor.red();
+        float blueSaturation = colorSensor.blue();
+        float greenSaturation = colorSensor.green();
+
+        telemetry.addLine()
+                .addData("Red", "%.3f", redSaturation)
+                .addData("Green", "%.3f", greenSaturation)
+                .addData("Blue", "%.3f", blueSaturation);
+        telemetry.update();
+
+        if ((redSaturation > blueSaturation) && (redSaturation > greenSaturation)){
+
+            //return ColorSensorColor.RED;
+            ColorSensorColor = "RED";
+
+        } else if ((blueSaturation > redSaturation) && (blueSaturation > greenSaturation)){
+
+           // return ColorSensorColor.BLUE;//Seems backwards, is what color sensor actually read
+            ColorSensorColor = "BLUE";
+        }
+
+        //return ColorSensorColor.GREEN;//Seems backwards, is what color sensor actually read
+        ColorSensorColor = "GREEN";
+
+    }
+
+    public void checkForColor(){
+
+        colorSensor.enableLed(true);
+        getColorFromColorSensor();
+
+        if (ColorSensorColor == "BLUE"){
+            parkingZone = 1;
+        } else if (ColorSensorColor == "RED"){
+            parkingZone = 2;
+        } else if (ColorSensorColor == "GREEN"){
+            parkingZone = 3;
+        }
+    }
 
 }
