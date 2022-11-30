@@ -28,7 +28,7 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    public double parkingZone;
+    //public double parkingZone;
     public String ColorSensorColor;
 
     //construct robot
@@ -189,7 +189,7 @@ public class Robot {
         telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
         telemetry.addData("Colors", String.format("Blue(%d) Red (%d) Green (%d) Light (%d) Hue (%d)", colorSensor.blue(), colorSensor.red(), colorSensor.green(), colorSensor.alpha(), colorSensor.argb()));
         checkForColor();
-        telemetry.addData("Colors", "Zone(%d)", parkingZone);
+        //telemetry.addData("Colors", "Zone(%d)", parkingZone);
 
         telemetry.update();
     }
@@ -258,11 +258,11 @@ public class Robot {
         getColorFromColorSensor();
 
         if (ColorSensorColor == "BLUE"){
-            parkingZone = 1;
+            //parkingZone = 1;
         } else if (ColorSensorColor == "RED"){
-            parkingZone = 2;
+            //parkingZone = 2;
         } else if (ColorSensorColor == "GREEN"){
-            parkingZone = 3;
+            //parkingZone = 3;
         }
     }
 

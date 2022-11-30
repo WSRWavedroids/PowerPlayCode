@@ -13,7 +13,27 @@ public class RedA5Start extends AutonomousPLUS {
 
         //Do this to pass inspection.
         waitForStart();
-        moveToParkingZone("Red A5");
+        //moveToParkingZone("Red A5");
+        moveRobotForward(55);
+        prepareNextAction(300);
+
+        moveRobotLeft(950);
+        prepareNextAction(300);
+
+        moveRobotForward(950);
+        prepareNextAction(300);
+
+        turnRobotLeft(500);
+        prepareNextAction(300);
+
+        moveArm("Up", .5);
+        sleep(2000);
+        robot.powerSet(0);
+
+
+
+
+
 
         //moveRobotRight(960);
         //prepareNextAction(500);

@@ -16,7 +16,7 @@ public class BlueA5Start extends AutonomousPLUS {
 //Gameplan is to put a cone in ground junction then parking in a space
         //Do this to pass inspection.
         waitForStart();
-        moveToParkingZone("Blue A5");
+        //moveToParkingZone("Blue A5");
 //Changed ticks 1000 to 960
         //moveRobotLeft(960);
       //  prepareNextAction(400);

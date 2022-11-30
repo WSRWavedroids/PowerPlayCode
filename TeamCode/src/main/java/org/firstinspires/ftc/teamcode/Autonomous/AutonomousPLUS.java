@@ -180,15 +180,15 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
     public void moveArm(String direction, double power){
         if (direction == "Up"){
-            robot.slide.setPower(0.75);
             robot.slide.setDirection(DcMotor.Direction.REVERSE);
+            robot.slide.setPower(0.75);
         } else if (direction == "Down"){
-            robot.slide.setPower(0.25);
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
+            robot.slide.setPower(0.25);
         }
     }
 
-    public void moveToParkingZone(String startingPosition){
+ /*   public void moveToParkingZone(String startingPosition){
 
         robot.checkForColor();
 
@@ -286,7 +286,9 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
         }
 
+  */
+
 
     }
 
-}
+
