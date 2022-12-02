@@ -28,7 +28,7 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    //public double parkingZone;
+    public double parkingZone;
     public String ColorSensorColor;
 
     //construct robot

@@ -13,21 +13,40 @@ public class BlueA2Start extends AutonomousPLUS {
 
         //Do this to pass inspection.
         waitForStart();
-        //moveToParkingZone("Blue A2");
+        if (robot.parkingZone == 1){
 
-        //moveRobotRight(1250);
-        //prepareNextAction(300);
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotLeft(1550);
+            prepareNextAction(100);
+            moveArm("up",0.75);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotRight(250);
+            prepareNextAction(100);
+            moveRobotForward(300);
 
-        //moveRobotRight(100);
-        //prepareNextAction(100);
-        //moveRobotLeft(3000);
-        //prepareNextAction(500);*/
 
-        //moveRobotForward(1300);
-        //prepareNextAction(400);
+        } else if (robot.parkingZone == 2){
 
-        //moveRobotLeft(3000);
-        //prepareNextAction(500);
+            moveRobotForward(2000);
+            prepareNextAction(200);
+
+        } else if (robot.parkingZone == 3){
+
+            moveRobotRight(2000);
+            prepareNextAction(200);
+            moveRobotForward(3000);
+            prepareNextAction(200);
+
+        }
 
     }
 }

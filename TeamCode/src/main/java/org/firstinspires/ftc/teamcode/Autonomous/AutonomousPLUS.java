@@ -188,55 +188,15 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         }
     }
 
- /*   public void moveToParkingZone(String startingPosition){
+    public void moveToParkingZone(String startingPosition){
 
         robot.checkForColor();
 
         if (startingPosition == "Blue A2"){
 
-            if (robot.parkingZone == 1){
 
-                moveRobotForward(2000);
-                prepareNextAction(200);
-                moveRobotLeft(3000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 2){
-
-                moveRobotForward(2000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 3){
-
-                moveRobotRight(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            }
 
         } else if (startingPosition == "Blue A5"){
-
-            if (robot.parkingZone == 1){
-
-                moveRobotLeft(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 2){
-
-                moveRobotForward(2000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 3){
-
-                moveRobotRight(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            }
 
         } else if (startingPosition == "Red A2"){
 
@@ -263,32 +223,13 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
         } else if (startingPosition == "Red A5"){
 
-            if (robot.parkingZone == 1){
 
-                moveRobotLeft(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 2){
-
-                moveRobotForward(2000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 3){
-
-                moveRobotRight(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            }
 
         }
 
-  */
 
 
-    }
+
+    }}
 
 

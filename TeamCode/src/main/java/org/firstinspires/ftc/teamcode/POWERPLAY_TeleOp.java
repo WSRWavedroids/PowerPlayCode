@@ -211,8 +211,7 @@ public class POWERPLAY_TeleOp extends OpMode {
         float rightX = -this.gamepad1.right_stick_x; //
         float leftY = -this.gamepad1.left_stick_y;
         float leftX = this.gamepad1.left_stick_x; //
-// do we need a rightY????
-        //Sorry If I broke it
+// do we need a rightY?
         float[] motorPowers = new float[4];
         motorPowers[0] = (leftY + leftX + rightX); //swapped  to +
         motorPowers[1] = (leftY - leftX - rightX);//swapped  to -

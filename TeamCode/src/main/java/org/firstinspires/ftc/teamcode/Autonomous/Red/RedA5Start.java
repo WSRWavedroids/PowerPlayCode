@@ -11,35 +11,61 @@ public class RedA5Start extends AutonomousPLUS {
 
         super.runOpMode();
 
-        //Do this to pass inspection.
-        waitForStart();
-        //moveToParkingZone("Red A5");
-        moveRobotForward(55);
-        prepareNextAction(300);
 
-        moveRobotLeft(950);
-        prepareNextAction(300);
+        if (robot.parkingZone == 1){
 
-        moveRobotForward(950);
-        prepareNextAction(300);
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotLeft(1550);
+            prepareNextAction(100);
+            moveArm("up",0.75);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotRight(250);
+            prepareNextAction(100);
+            moveRobotForward(300);
 
-        turnRobotLeft(500);
-        prepareNextAction(300);
+        } else if (robot.parkingZone == 2){
 
-        moveArm("Up", .5);
-        sleep(2000);
-        robot.powerSet(0);
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1950);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveArm("up",0.50);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotRight(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
+
+
+        } else if (robot.parkingZone == 3){
+
+            moveRobotRight(2000);
+            prepareNextAction(200);
+            moveRobotForward(3000);
+            prepareNextAction(200);
+
+        }
 
 
 
 
 
-
-        //moveRobotRight(960);
-        //prepareNextAction(500);
-
-        //moveRobotForward(1400);
-        //prepareNextAction(400);
 
     }
     //so uh yeah we totally made this for outreach

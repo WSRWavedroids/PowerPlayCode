@@ -13,16 +13,68 @@ public class BlueA5Start extends AutonomousPLUS {
     public void runOpMode() {
 
         super.runOpMode();
-//Gameplan is to put a cone in ground junction then parking in a space
-        //Do this to pass inspection.
-        waitForStart();
-        //moveToParkingZone("Blue A5");
-//Changed ticks 1000 to 960
-        //moveRobotLeft(960);
-      //  prepareNextAction(400);
-//Changed ticks 3000 to 960
-        //moveRobotForward(1500);
-        //prepareNextAction(500);
+
+
+        if (robot.parkingZone == 1){
+
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1960);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveArm("up",0.25);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
+
+        } else if (robot.parkingZone == 2){
+
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotRight(550);
+            prepareNextAction(100);
+            moveArm("up",0.50);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
+
+        } else if (robot.parkingZone == 3){
+
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotRight(1550);
+            prepareNextAction(100);
+            moveArm("up",0.75);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
+        }
 
     }
 }

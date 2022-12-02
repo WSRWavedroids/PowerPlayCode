@@ -13,16 +13,67 @@ public class RedA2Start extends AutonomousPLUS {
 
         //Do this to pass inspection.
         waitForStart();
-        //moveToParkingZone("Red A2");
+        if (robot.parkingZone == 1){
 
-        //moveRobotLeft(1250);
-        //prepareNextAction(500);
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1960);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveArm("up",0.25);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
 
-        //moveRobotRight(100);
-        //prepareNextAction(100);
+        } else if (robot.parkingZone == 2){
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotRight(550);
+            prepareNextAction(100);
+            moveArm("up",0.50);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
 
-        //moveRobotForward(1300);
-        //prepareNextAction(400);
+
+        } else if (robot.parkingZone == 3){
+
+            robot.openAndCloseClaw(0);
+            prepareNextAction(100);
+            moveRobotForward(1100);
+            prepareNextAction(100);
+            moveRobotRight(1550);
+            prepareNextAction(100);
+            moveArm("up",0.75);
+            prepareNextAction(100);
+            robot.openAndCloseClaw(1);
+            prepareNextAction(100);
+            moveArm("down",0.75);
+            prepareNextAction(100);
+            moveRobotBackward(50);
+            prepareNextAction(100);
+            moveRobotLeft(550);
+            prepareNextAction(100);
+            moveRobotForward(300);
+
+        }
 
     }
 }
