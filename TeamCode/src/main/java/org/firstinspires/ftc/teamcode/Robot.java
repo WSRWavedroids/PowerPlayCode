@@ -23,7 +23,7 @@ public class Robot {
     public DcMotor turntable;
     public Servo whiteClaw;
     public Telemetry telemetry;
-    public ColorSensor colorSensor;
+    //public ColorSensor colorSensor;
 
     //init and declare war
     public OpMode opmode;
@@ -57,7 +57,7 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
-        colorSensor = hardwareMap.get(ColorSensor.class, "betterMason");
+        //colorSensor = hardwareMap.get(ColorSensor.class, "betterMason");
 
 
         this.frontLeftDrive = frontLeftDrive;
@@ -67,7 +67,7 @@ public class Robot {
         this.slide = slide;
         this.turntable = turntable;
         this.whiteClaw = whiteClaw;
-        this.colorSensor = colorSensor;
+        //this.colorSensor = colorSensor;
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         //Flipped the reverse and forward values
@@ -187,8 +187,8 @@ public class Robot {
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
         telemetry.addData("Motors", "Slide Arm (%.2f)", slide.getPower());
         telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
-        telemetry.addData("Colors", String.format("Blue(%d) Red (%d) Green (%d) Light (%d) Hue (%d)", colorSensor.blue(), colorSensor.red(), colorSensor.green(), colorSensor.alpha(), colorSensor.argb()));
-        checkForColor();
+        //telemetry.addData("Colors", String.format("Blue(%d) Red (%d) Green (%d) Light (%d) Hue (%d)", colorSensor.blue(), colorSensor.red(), colorSensor.green(), colorSensor.alpha(), colorSensor.argb()));
+        //checkForColor();
         //telemetry.addData("Colors", "Zone(%d)", parkingZone);
 
         telemetry.update();
@@ -223,10 +223,10 @@ public class Robot {
 
 
 
-
+/*
     public void getColorFromColorSensor(){
 
-        float redSaturation = colorSensor.red();
+        float redSaturation = colorSensor.d()re;
         float blueSaturation = colorSensor.blue();
         float greenSaturation = colorSensor.green();
 
@@ -254,7 +254,7 @@ public class Robot {
 
     public void checkForColor(){
 
-        colorSensor.enableLed(true);
+        //colorSensor.enableLed(true);
         getColorFromColorSensor();
 
         if (ColorSensorColor == "BLUE"){
@@ -265,5 +265,7 @@ public class Robot {
             //parkingZone = 3;
         }
     }
+
+ */
 
 }

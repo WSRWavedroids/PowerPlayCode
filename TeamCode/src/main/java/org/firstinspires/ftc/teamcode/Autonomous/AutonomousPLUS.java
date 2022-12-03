@@ -190,7 +190,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
     public void moveToParkingZone(String startingPosition){
 
-        robot.checkForColor();
+        //robot.checkForColor();
 
         if (startingPosition == "Blue A2"){
 
