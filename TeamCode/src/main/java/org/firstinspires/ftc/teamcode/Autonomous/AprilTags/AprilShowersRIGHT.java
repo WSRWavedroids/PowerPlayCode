@@ -23,11 +23,9 @@ package org.firstinspires.ftc.teamcode.Autonomous.AprilTags;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -36,13 +34,15 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-public class MayFlowers extends LinearOpMode
+@Autonomous(group = "Any", name = "April Showers JUNCTION ON RIGHT")
+public class AprilShowersRIGHT extends LinearOpMode
 {
     //INTRODUCE VARIABLES HERE
 
     OpenCvCamera camera;
-    public AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    AprilTagDetectionPipeline aprilTagDetectionPipeline;
     public Robot robot = new Robot();
+    public AutonomousPLUS AP = new AutonomousPLUS();
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -50,13 +50,13 @@ public class MayFlowers extends LinearOpMode
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
     // You will need to do your own calibration for other configurations!
-    public double fx = 578.272;
-    public double fy = 578.272;
-    public double cx = 402.145;
-    public double cy = 221.506;
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
 
     // UNITS ARE METERS
-    public double tagsize = 0.166;
+    double tagsize = 0.166;
 
     // Tag ID 1,2,3 from the 36h11 family
     /*EDIT IF NEEDED!!!*/
@@ -68,47 +68,55 @@ public class MayFlowers extends LinearOpMode
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode() {
-
-       //robot.init(hardwareMap, telemetry, this);
-
+    public void runOpMode()
+    {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
             @Override
-            public void onOpened() {
-                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened()
+            {
+                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {
+            public void onError(int errorCode)
+            {
 
             }
         });
 
         telemetry.setMsTransmissionInterval(50);
 
-    }
 
-    public void findAprilTags(AprilTagDetectionPipeline aprilTagDetectionPipeline){
-        while (!isStarted() && !isStopRequested()) {
+        //HARDWARE MAPPING HERE etc.
+
+
+        /*
+         * The INIT-loop:
+         * This REPLACES waitForStart!
+         */
+        while (!isStarted() && !isStopRequested())
+        {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if (currentDetections.size() != 0) {
+            if(currentDetections.size() != 0)
+            {
                 boolean tagFound = false;
 
-
-                for (AprilTagDetection tag : currentDetections) {
-                    if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                for(AprilTagDetection tag : currentDetections)
+                {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT){
                         tagOfInterest = tag;
                         tagFound = true;
 
-                        if (tag.id == LEFT) {
+                        if(tag.id == LEFT){
                             robot.parkingZone = 1;
-                        } else if (tag.id == MIDDLE) {
+                        } else if (tag.id == MIDDLE){
                             robot.parkingZone = 2;
                         } else {
                             robot.parkingZone = 3;
@@ -118,50 +126,82 @@ public class MayFlowers extends LinearOpMode
                     }
                 }
 
-                if (tagFound) {
+                if(tagFound)
+                {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
-                } else {
+                }
+                else
+                {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if (tagOfInterest == null) {
+                    if(tagOfInterest == null)
+                    {
                         telemetry.addLine("(The tag has never been seen)");
-                    } else {
+                    }
+                    else
+                    {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
                 }
 
-            } else {
+            }
+            else
+            {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if (tagOfInterest == null) {
+                if(tagOfInterest == null)
+                {
                     telemetry.addLine("(The tag has never been seen)");
-                } else {
+                }
+                else
+                {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
 
             }
 
+            telemetry.update();
+            sleep(20);
         }
-    }
 
+        /*
+         * The START command just came in: now work off the latest snapshot acquired
+         * during the init loop.
+         */
 
-    /* Update the telemetry */
-    public void AprilTagsUpdate() {
-        if (tagOfInterest != null) {
+        /* Update the telemetry */
+        if(tagOfInterest != null)
+        {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
-        } else {
+        }
+        else
+        {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
 
+
+        //La code
+        robot.openAndCloseClaw(0);
+        AP.prepareNextAction(100);
+        AP.moveRobotForward(1100);
+        AP.prepareNextAction(100);
+        AP.moveRobotLeft(1550);
+        AP.prepareNextAction(100);
+        AP.moveArm("Up", 0.75);
+        AP.prepareNextAction(100);
+        robot.openAndCloseClaw(1);
+        AP.prepareNextAction(100);
+        AP.moveArm("Down", 0.75);
+        AP.prepareNextAction(100);
+        AP.moveRobotBackward(50);
+        AP.prepareNextAction(100);
     }
-
-
 
     public void tagToTelemetry(AprilTagDetection detection)
     {
@@ -174,3 +214,4 @@ public class MayFlowers extends LinearOpMode
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
+

@@ -45,7 +45,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.MayFlowers;
  */
 
 //todo Create function to convert tick values based on speed.
-public abstract class AutonomousPLUS extends LinearOpMode {
+public class AutonomousPLUS extends LinearOpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
@@ -218,7 +218,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
     }
 
     public void identifyAprilTags(){
-        MayFlowers.findAprilTags();
+        //MayFlowers.findAprilTags();
     }
 
     public void placeHighCone(){

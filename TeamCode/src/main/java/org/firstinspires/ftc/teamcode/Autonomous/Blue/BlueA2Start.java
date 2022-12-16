@@ -3,12 +3,30 @@ package org.firstinspires.ftc.teamcode.Autonomous.Blue;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+
+
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Robot;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+
+
 
 @Autonomous(group = "Blue", name = "Blue A2 Start (Blue Terminal)")
 public class BlueA2Start extends AutonomousPLUS {
@@ -22,11 +40,8 @@ public class BlueA2Start extends AutonomousPLUS {
 
         //Do this to pass inspection.
 
-
-        //robot.init(hardwareMap, telemetry, this);
-
-
-        MayFlowers.findAprilTags();
+        MayFlowers.runOpMode();
+        MayFlowers.findAprilTags(MayFlowers.aprilTagDetectionPipeline);
         telemetry.addData("Zone", robot.parkingZone);
         telemetry.update();
         waitForStart();
