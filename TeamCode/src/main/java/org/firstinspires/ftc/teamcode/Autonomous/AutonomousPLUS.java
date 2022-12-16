@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -43,12 +44,16 @@ import org.firstinspires.ftc.teamcode.Robot;
  */
 
 //todo Create function to convert tick values based on speed.
-public abstract class AutonomousPLUS extends LinearOpMode {
+public class AutonomousPLUS extends LinearOpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
 
     public double speed = 0.4;
+    public Integer sleepTime;
+    //public float armUP
+
+    //public boolean armUp = false;
 
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
@@ -61,9 +66,9 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         robot.encoderRunningMode();
 
     }
-
+//I changed the names of FBLR to be the opposite of the funtion to effectively un-invert everything CK
 //I think the setTargets Function is broken. Motors don't stop at the right place
-    public void moveRobotForward(int ticks) {
+    public void moveRobotBackward(int ticks) {
         if (opModeIsActive()){
             robot.setTargets("Forward", ticks);
             robot.positionRunningMode();
@@ -82,7 +87,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
     }
 
 
-    public void moveRobotBackward(int ticks){
+    public void moveRobotForward(int ticks){
         if (opModeIsActive()){
             robot.setTargets("Backward", ticks);
             robot.positionRunningMode();
@@ -99,7 +104,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         }
 
     }
-    public void moveRobotLeft(int ticks) {
+    public void moveRobotRight(int ticks) {
 
         if (opModeIsActive()){
             robot.setTargets("Left", ticks);
@@ -117,7 +122,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
         }
     }
 
-    public void moveRobotRight(int ticks) {
+    public void moveRobotLeft(int ticks) {
 
         if (opModeIsActive()) {
             robot.setTargets("Right", ticks);
@@ -180,12 +185,24 @@ public abstract class AutonomousPLUS extends LinearOpMode {
 
     public void moveArm(String direction, double power){
         if (direction == "Up"){
-            robot.slide.setDirection(DcMotor.Direction.REVERSE);
-            robot.slide.setPower(0.75);
+           //switched setPower and setDirection
+            robot.slide.setDirection(DcMotor.Direction.REVERSE); //flipped to reverse and adjsted values to match teleop
+            robot.slide.setPower(.75); //power is set in other program
+            sleep(sleepTime);// High pole stop at 1755 mil 35 inches, 400 cone stack 1448 is medium, short is 800
+            robot.slide.setPower(0.1); //holds arm
+            sleep(1450);//remove if no work
+//1 inch = 60.7 miliseconds
+
+
         } else if (direction == "Down"){
-            robot.slide.setDirection(DcMotor.Direction.FORWARD);
-            robot.slide.setPower(0.25);
+            robot.slide.setDirection(DcMotor.Direction.FORWARD);//flipped to forward and matched values to teleop.
+            robot.slide.setPower(0.5); //power is set in other program
+
         }
+    }
+    public void holdArm(){
+        robot.slide.setDirection(DcMotor.Direction.REVERSE);
+        robot.slide.setPower(0.1);
     }
 
     public void moveToParkingZone(String startingPosition){

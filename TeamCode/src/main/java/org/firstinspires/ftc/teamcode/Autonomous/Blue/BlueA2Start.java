@@ -21,11 +21,11 @@ public class BlueA2Start extends AutonomousPLUS {
             prepareNextAction(100);
             moveRobotLeft(1550);
             prepareNextAction(100);
-            moveArm("up",0.75);
+            moveArm("Up",0.75);
             prepareNextAction(100);
             robot.openAndCloseClaw(1);
             prepareNextAction(100);
-            moveArm("down",0.75);
+            moveArm("Down",0.75);
             prepareNextAction(100);
             moveRobotBackward(50);
             prepareNextAction(100);
