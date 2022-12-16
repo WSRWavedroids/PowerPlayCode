@@ -17,51 +17,17 @@ public class BlueA2Start extends AutonomousPLUS {
 
         super.runOpMode();
         startingPosition = "Blue A2";
-        OpenCvCamera camera;
-        AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
 
-        double FEET_PER_METER = 3.28084;
-
-        // Lens intrinsics
-        // UNITS ARE PIXELS
-        // NOTE: this calibration is for the C920 webcam at 800x448.
-        // You will need to do your own calibration for other configurations!
-        double fx = 578.272;
-        double fy = 578.272;
-        double cx = 402.145;
-        double cy = 221.506;
-
-        // UNITS ARE METERS
-        double tagsize = 0.166;
 
         //Do this to pass inspection.
 
 
         //robot.init(hardwareMap, telemetry, this);
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-
-            }
-        });
-
-
-
-        MayFlowers.findAprilTags(aprilTagDetectionPipeline);
+        MayFlowers.findAprilTags();
         telemetry.addData("Zone", robot.parkingZone);
-        telemetry.addData("Tags", aprilTagDetectionPipeline.getLatestDetections());
         telemetry.update();
         waitForStart();
         if (robot.parkingZone == 1){

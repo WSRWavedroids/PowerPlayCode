@@ -218,7 +218,7 @@ public abstract class AutonomousPLUS extends LinearOpMode {
     }
 
     public void identifyAprilTags(){
-        MayFlowers.findAprilTags(new AprilTagDetectionPipeline(MayFlowers.tagsize, MayFlowers.fx, MayFlowers.fy, MayFlowers.cx, MayFlowers.cy));
+        MayFlowers.findAprilTags();
     }
 
     public void placeHighCone(){

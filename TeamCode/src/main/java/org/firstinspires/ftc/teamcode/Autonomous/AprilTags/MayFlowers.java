@@ -41,7 +41,7 @@ public class MayFlowers extends LinearOpMode
     //INTRODUCE VARIABLES HERE
 
     OpenCvCamera camera;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    public AprilTagDetectionPipeline aprilTagDetectionPipeline;
     public Robot robot = new Robot();
 
     static final double FEET_PER_METER = 3.28084;
@@ -92,69 +92,58 @@ public class MayFlowers extends LinearOpMode
 
     }
 
-    public void findAprilTags(AprilTagDetectionPipeline aprilTagDetectionPipeline){
-        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+    public void findAprilTags(){
+        while (!isStarted() && !isStopRequested()) {
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-        if(currentDetections.size() != 0)
-        {
-            boolean tagFound = false;
+            if (currentDetections.size() != 0) {
+                boolean tagFound = false;
 
 
-            for(AprilTagDetection tag : currentDetections)
-            {
-                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT){
-                    tagOfInterest = tag;
-                    tagFound = true;
+                for (AprilTagDetection tag : currentDetections) {
+                    if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                        tagOfInterest = tag;
+                        tagFound = true;
 
-                    if(tag.id == LEFT){
-                        robot.parkingZone = 1;
-                    } else if (tag.id == MIDDLE){
-                        robot.parkingZone = 2;
-                    } else {
-                        robot.parkingZone = 3;
+                        if (tag.id == LEFT) {
+                            robot.parkingZone = 1;
+                        } else if (tag.id == MIDDLE) {
+                            robot.parkingZone = 2;
+                        } else {
+                            robot.parkingZone = 3;
+                        }
+
+                        break;
                     }
-
-                    break;
                 }
-            }
 
-            if(tagFound)
-            {
-                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                tagToTelemetry(tagOfInterest);
-            }
-            else
-            {
+                if (tagFound) {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                } else {
+                    telemetry.addLine("Don't see tag of interest :(");
+
+                    if (tagOfInterest == null) {
+                        telemetry.addLine("(The tag has never been seen)");
+                    } else {
+                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+                }
+
+            } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
+                if (tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
+
             }
 
         }
-        else
-        {
-            telemetry.addLine("Don't see tag of interest :(");
-
-            if(tagOfInterest == null)
-            {
-                telemetry.addLine("(The tag has never been seen)");
-            }
-            else
-            {
-                telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                tagToTelemetry(tagOfInterest);
-            }
-
-        }
-
     }
 
 
