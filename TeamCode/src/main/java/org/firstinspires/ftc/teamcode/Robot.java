@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -23,6 +24,7 @@ public class Robot {
     public DcMotor turntable;
     public Servo whiteClaw;
     public Telemetry telemetry;
+    public I2cDevice gyro;
     //public ColorSensor colorSensor;
 
     //init and declare war
@@ -52,6 +54,7 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
+        gyro = hardwareMap.get(I2cDevice.class, "imu");
 
 
         this.frontLeftDrive = frontLeftDrive;
@@ -214,6 +217,10 @@ public class Robot {
     public void holdArm(){
         slide.setDirection(DcMotor.Direction.REVERSE);
         slide.setPower(0.1);
+    }
+
+    public void calculateOrientation(){
+        //I2cDevice.getRobotYawPitchRollAngles();
     }
 
 

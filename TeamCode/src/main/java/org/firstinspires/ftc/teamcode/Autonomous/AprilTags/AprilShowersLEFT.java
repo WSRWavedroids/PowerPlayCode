@@ -34,7 +34,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "Any", name = "April Showers JUNCTION ON LEFT")
+@Autonomous(group = "April", name = "Starting Next To BLUE Terminal")
 public class AprilShowersLEFT extends LinearOpMode
 {
     //INTRODUCE VARIABLES HERE
@@ -187,6 +187,8 @@ public class AprilShowersLEFT extends LinearOpMode
 
 
         //La code
+
+        //Place cone on high junction
         robot.openAndCloseClaw(0);
         AP.prepareNextAction(100);
         AP.moveRobotForward(1100);
@@ -201,6 +203,17 @@ public class AprilShowersLEFT extends LinearOpMode
         AP.prepareNextAction(100);
         AP.moveRobotBackward(50);
         AP.prepareNextAction(100);
+
+
+        //Move to parking zone
+         if(robot.parkingZone == 1){
+             AP.moveRobotRight(3000);
+         } else if(robot.parkingZone == 2){
+             AP.moveRobotRight(2000);
+         } else if(robot.parkingZone == 3){
+             AP.moveRobotRight(1000);
+         }
+
     }
 
     public void tagToTelemetry(AprilTagDetection detection)
