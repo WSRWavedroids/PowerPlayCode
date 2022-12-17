@@ -33,7 +33,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -90,30 +89,26 @@ import org.firstinspires.ftc.teamcode.Robot;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Gyro", group="Robot")
-public class GyroTest extends LinearOpMode {
+public class Falafel extends LinearOpMode {
 
     public Robot robot = new Robot();
 
-    /* Declare OpMode members. */
-
-    private BNO055IMU       imu         = null;      // Control/Expansion Hub IMU
-
-    private double          robotHeading  = 0;
-    private double          headingOffset = 0;
-    private double          headingError  = 0;
+    public double          robotHeading  = 0;
+    public double          headingOffset = 0;
+    public double          headingError  = 0;
 
     // These variable are declared here (as class members) so they can be updated in various methods,
     // but still be displayed by sendTelemetry()
-    private double  targetHeading = 0;
-    private double  driveSpeed    = 0;
-    private double  turnSpeed     = 0;
-    private double  leftSpeed     = 0;
-    private double  rightSpeed    = 0;
-    private int     backLeftTarget    = 0;
-    private int     backRightTarget   = 0;
-    private int     frontLeftTarget    = 0;
-    private int     frontRightTarget   = 0;
+    public double  targetHeading = 0;
+    public double  driveSpeed    = 0;
+    public double  turnSpeed     = 0;
+    public double  leftSpeed     = 0;
+    public double  rightSpeed    = 0;
+    public int     backLeftTarget    = 0;
+    public int     backRightTarget   = 0;
+    public int     frontLeftTarget    = 0;
+    public int     frontRightTarget   = 0;
+    boolean straight;
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -149,13 +144,6 @@ public class GyroTest extends LinearOpMode {
         robot.encoderReset();
         robot.encoderRunningMode();
 
-        // define initialization values for IMU, and then initialize it.
-        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        //parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
-        //imu = hardwareMap.get(BNO055IMU.class, "imu");
-        //imu.initialize(parameters);
-
-
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
             telemetry.addData(">", "Robot Heading = %4.0f", getRawHeading());
@@ -164,29 +152,6 @@ public class GyroTest extends LinearOpMode {
 
         // Set the encoders for closed loop speed control, and reset the heading.
         resetHeading();
-
-        // Step through each leg of the path,
-        // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
-        //          holdHeading() is used after turns to let the heading stabilize
-        //          Add a sleep(2000) after any step to keep the telemetry data visible for review
-
-        driveStraight(DRIVE_SPEED, 24.0, 0.0);    // Drive Forward 24"
-        turnToHeading( TURN_SPEED, -45.0);               // Turn  CW to -45 Degrees
-        holdHeading( TURN_SPEED, -45.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
-
-        driveStraight(DRIVE_SPEED, 17.0, -45.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
-        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
-        holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
-
-        driveStraight(DRIVE_SPEED, 17.0, 45.0);  // Drive Forward 17" at 45 degrees (-12"x and 12"y)
-        turnToHeading( TURN_SPEED,   0.0);               // Turn  CW  to 0 Degrees
-        holdHeading( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for 1 second
-
-        driveStraight(DRIVE_SPEED,-48.0, 0.0);    // Drive in Reverse 48" (should return to approx. staring position)
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // Pause to display last telemetry message.
     }
 
     /*
@@ -216,13 +181,22 @@ public class GyroTest extends LinearOpMode {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
+            straight = true;
 
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
-            frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + moveCounts;
-            frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
-            backLeftTarget = robot.backLeftDrive.getCurrentPosition() + moveCounts;
-            backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
+
+            if(straight) {
+                frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + moveCounts;
+                frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
+                backLeftTarget = robot.backLeftDrive.getCurrentPosition() + moveCounts;
+                backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
+            } else {
+                frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - moveCounts;
+                frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
+                backLeftTarget = robot.backLeftDrive.getCurrentPosition() - moveCounts;
+                backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
+            }
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
             robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
@@ -252,11 +226,13 @@ public class GyroTest extends LinearOpMode {
                 moveRobot(driveSpeed, turnSpeed);
 
                 // Display drive status for the driver.
-                sendTelemetry(true);
+
+                sendTelemetry();
             }
 
             // Stop all motion & Turn off RUN_TO_POSITION
             moveRobot(0, 0);
+            robot.encoderReset();
             robot.encoderRunningMode();
         }
     }
@@ -273,7 +249,7 @@ public class GyroTest extends LinearOpMode {
      *              If a relative angle is required, add/subtract from current heading.
      */
     public void turnToHeading(double maxTurnSpeed, double heading) {
-
+        straight = false;
         // Run getSteeringCorrection() once to pre-calculate the current error
         getSteeringCorrection(heading, P_DRIVE_GAIN);
 
@@ -290,11 +266,13 @@ public class GyroTest extends LinearOpMode {
             moveRobot(0, turnSpeed);
 
             // Display drive status for the driver.
-            sendTelemetry(false);
+
+            sendTelemetry();
         }
 
         // Stop all motion;
         moveRobot(0, 0);
+        robot.encoderReset();
     }
 
     /**
@@ -309,7 +287,7 @@ public class GyroTest extends LinearOpMode {
      * @param holdTime   Length of time (in seconds) to hold the specified heading.
      */
     public void holdHeading(double maxTurnSpeed, double heading, double holdTime) {
-
+        straight = false;
         ElapsedTime holdTimer = new ElapsedTime();
         holdTimer.reset();
 
@@ -325,7 +303,8 @@ public class GyroTest extends LinearOpMode {
             moveRobot(0, turnSpeed);
 
             // Display drive status for the driver.
-            sendTelemetry(false);
+
+            sendTelemetry();
         }
 
         // Stop all motion;
@@ -382,15 +361,15 @@ public class GyroTest extends LinearOpMode {
         robot.frontLeftDrive.setPower(leftSpeed);
         robot.frontRightDrive.setPower(rightSpeed);
         robot.backLeftDrive.setPower(leftSpeed);
-        robot.frontRightDrive.setPower(rightSpeed);
+        robot.backRightDrive.setPower(rightSpeed);
     }
 
     /**
      *  Display the various control parameters while driving
      *
-     * @param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
+     * //@param straight  Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
      */
-    private void sendTelemetry(boolean straight) {
+    private void sendTelemetry() {
 
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
@@ -413,7 +392,7 @@ public class GyroTest extends LinearOpMode {
      * read the raw (un-offset Gyro heading) directly from the IMU
      */
     public double getRawHeading() {
-        Orientation angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 

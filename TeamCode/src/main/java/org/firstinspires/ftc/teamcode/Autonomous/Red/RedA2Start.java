@@ -10,7 +10,7 @@ public class RedA2Start extends AutonomousPLUS {
     public void runOpMode() {
 
         super.runOpMode();
-        startingPosition = "Red A2";
+        robot.startingPosition = "Red A2";
 
         //Do this to pass inspection.
         waitForStart();

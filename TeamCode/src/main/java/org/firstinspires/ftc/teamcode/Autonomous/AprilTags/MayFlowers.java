@@ -29,7 +29,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.opencv.core.Mat;
 import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.apriltag.AprilTagDetectorJNI;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -58,6 +60,8 @@ public class MayFlowers extends LinearOpMode
     // UNITS ARE METERS
     public double tagsize = 0.166;
 
+    public long nativeApriltagPtr;
+
     // Tag ID 1,2,3 from the 36h11 family
     /*EDIT IF NEEDED!!!*/
 
@@ -66,6 +70,13 @@ public class MayFlowers extends LinearOpMode
     int RIGHT = 3;
 
     AprilTagDetection tagOfInterest = null;
+
+    //@Override
+    public void init(Mat frame)
+    {
+        // Allocate a native context object. See the corresponding deletion in the finalizer
+        nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
+    }
 
     @Override
     public void runOpMode() {

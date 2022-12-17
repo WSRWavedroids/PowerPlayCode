@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -25,12 +26,14 @@ public class Robot {
     public Servo whiteClaw;
     public Telemetry telemetry;
     public I2cDevice gyro;
+    public BNO055IMU imu;
     //public ColorSensor colorSensor;
 
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
     public double parkingZone;
+    public String startingPosition;
 
     //construct robot
     public Robot() {
@@ -54,7 +57,7 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
-        gyro = hardwareMap.get(I2cDevice.class, "imu");
+        //gyro = hardwareMap.get(I2cDevice.class, "imu");
 
 
         this.frontLeftDrive = frontLeftDrive;
@@ -65,6 +68,12 @@ public class Robot {
         this.turntable = turntable;
         this.whiteClaw = whiteClaw;
         //this.colorSensor = colorSensor;
+
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         //Flipped the reverse and forward values
@@ -193,7 +202,7 @@ public class Robot {
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
         telemetry.addData("Motors", "Slide Arm (%.2f)", slide.getPower());
         telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
-        telemetry.addData("Zone", "Zone(%d)", parkingZone);
+        //telemetry.addData("Zone", "Zone(%d)", parkingZone);
 
         telemetry.update();
     }

@@ -13,7 +13,7 @@ public class BlueA5Start extends AutonomousPLUS {
     public void runOpMode() {
 
         super.runOpMode();
-        startingPosition = "Blue A5";
+        robot.startingPosition = "Blue A5";
 
 
         if (robot.parkingZone == 1){

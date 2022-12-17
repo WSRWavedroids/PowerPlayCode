@@ -51,7 +51,7 @@ public class AutonomousPLUS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     public double speed = 0.4;
-    public String startingPosition;
+
 
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
@@ -223,7 +223,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void placeHighCone(){
 
-        if(startingPosition == "Blue A2" || startingPosition == "Red A5") {
+        if(robot.startingPosition == "Blue A2" || robot.startingPosition == "Red A5") {
 
             robot.openAndCloseClaw(0);
             prepareNextAction(100);
@@ -240,7 +240,7 @@ public class AutonomousPLUS extends LinearOpMode {
             moveRobotBackward(50);
             prepareNextAction(100);
 
-        } else if(startingPosition == "Blue A5" || startingPosition == "Red A2"){
+        } else if(robot.startingPosition == "Blue A5" || robot.startingPosition == "Red A2"){
 
             robot.openAndCloseClaw(0);
             prepareNextAction(100);
