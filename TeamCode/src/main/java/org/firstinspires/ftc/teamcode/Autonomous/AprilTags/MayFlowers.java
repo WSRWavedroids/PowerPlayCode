@@ -81,7 +81,14 @@ public class MayFlowers extends LinearOpMode
     @Override
     public void runOpMode() {
 
-       //robot.init(hardwareMap, telemetry, this);
+       robot.init(hardwareMap, telemetry, this);
+       telemetry.setMsTransmissionInterval(50);
+
+    }
+
+    public void initCamera(HardwareMap hardwareMap, Telemetry telemetry){
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);
@@ -96,12 +103,10 @@ public class MayFlowers extends LinearOpMode
 
             @Override
             public void onError(int errorCode) {
-
+                telemetry.addData("The camera is having issues right now.", errorCode);
+                telemetry.update();
             }
         });
-
-        telemetry.setMsTransmissionInterval(50);
-
     }
 
     public void findAprilTags(AprilTagDetectionPipeline aprilTagDetectionPipeline){

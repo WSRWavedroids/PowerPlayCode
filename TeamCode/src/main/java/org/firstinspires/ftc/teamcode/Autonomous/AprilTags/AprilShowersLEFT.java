@@ -23,6 +23,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.AprilTags;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPLUS;
@@ -41,7 +42,7 @@ public class AprilShowersLEFT extends LinearOpMode
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     Robot robot = new Robot();
-    public AutonomousPLUS AP = new AutonomousPLUS();
+    AutonomousPLUS AP = new AutonomousPLUS();
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -69,6 +70,8 @@ public class AprilShowersLEFT extends LinearOpMode
     @Override
     public void runOpMode()
     {
+
+        robot.init(hardwareMap, telemetry, this);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);

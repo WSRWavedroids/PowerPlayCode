@@ -186,17 +186,17 @@ public class Falafel extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
 
-            if(straight) {
+            //if(straight) {
                 frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + moveCounts;
                 frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
                 backLeftTarget = robot.backLeftDrive.getCurrentPosition() + moveCounts;
                 backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
-            } else {
-                frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - moveCounts;
-                frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
-                backLeftTarget = robot.backLeftDrive.getCurrentPosition() - moveCounts;
-                backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
-            }
+            //} else {
+                //frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - moveCounts;
+                //frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
+                //backLeftTarget = robot.backLeftDrive.getCurrentPosition() - moveCounts;
+                //backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
+            //}
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
             robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
