@@ -72,6 +72,7 @@ public class AprilShowersLEFT extends LinearOpMode
     {
 
         robot.init(hardwareMap, telemetry, this);
+        AP.makeItWork(hardwareMap, telemetry);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);

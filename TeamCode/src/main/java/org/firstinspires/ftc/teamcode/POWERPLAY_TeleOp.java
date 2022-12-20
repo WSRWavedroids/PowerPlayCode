@@ -208,8 +208,8 @@ public class POWERPLAY_TeleOp extends OpMode {
         // Don't mess with this function unless you REALLY know what you're doing.
 
         float rightX = -this.gamepad1.right_stick_x; //
-        float leftY = -this.gamepad1.left_stick_y;
-        float leftX = this.gamepad1.left_stick_x; //
+        float leftY = this.gamepad1.left_stick_y;
+        float leftX = -this.gamepad1.left_stick_x; //
 // do we need a rightY?
         float[] motorPowers = new float[4];
         motorPowers[0] = (leftY + leftX + rightX); //swapped  to +

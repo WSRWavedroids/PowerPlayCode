@@ -7,12 +7,13 @@ import org.firstinspires.ftc.teamcode.Autonomous.Falafel;
 
 @Autonomous(group = "Red", name = "Imposter Red A2")
 public class ImposterRedA2 extends Falafel {
+    AutonomousPLUS AP = new AutonomousPLUS();
     @Override
     public void runOpMode() {
 
         super.runOpMode();
         robot.startingPosition = "Red A2";
-        AutonomousPLUS AP = new AutonomousPLUS();
+
 
         //Do this to pass inspection.
         waitForStart();

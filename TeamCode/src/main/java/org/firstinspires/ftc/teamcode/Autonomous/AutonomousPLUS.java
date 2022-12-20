@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -51,6 +52,7 @@ public class AutonomousPLUS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     public double speed = 0.4;
+    public int sleepTime;
 
 
 
@@ -66,10 +68,14 @@ public class AutonomousPLUS extends LinearOpMode {
 
     }
 
+    public void makeItWork(HardwareMap hardwareMap, Telemetry telemetry){
+        robot.init(hardwareMap, telemetry, this);
+    }
+
     //I think the setTargets Function is broken. Motors don't stop at the right place
     public void moveRobotForward(int ticks) {
         if (opModeIsActive()){
-            robot.setTargets("Forward", ticks);
+            robot.setTargets("Backward", ticks);
             robot.positionRunningMode();
         }
         robot.powerSet(speed);
@@ -88,7 +94,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void moveRobotBackward(int ticks){
         if (opModeIsActive()){
-            robot.setTargets("Backward", ticks);
+            robot.setTargets("Forward", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -106,7 +112,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void moveRobotLeft(int ticks) {
 
         if (opModeIsActive()){
-            robot.setTargets("Left", ticks);
+            robot.setTargets("Right", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -124,7 +130,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void moveRobotRight(int ticks) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Right", ticks);
+            robot.setTargets("Left", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -186,9 +192,12 @@ public class AutonomousPLUS extends LinearOpMode {
         if (direction == "Up"){
             robot.slide.setDirection(DcMotor.Direction.REVERSE);
             robot.slide.setPower(0.75);
+            sleep(sleepTime);
+            robot.slide.setPower(0.1);
+            sleep(1550);
         } else if (direction == "Down"){
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
-            robot.slide.setPower(0.25);
+            robot.slide.setPower(0.5);
         }
     }
 

@@ -69,6 +69,8 @@ public class MayFlowers extends LinearOpMode
     int MIDDLE = 2;
     int RIGHT = 3;
 
+    int i = 1;
+
     AprilTagDetection tagOfInterest = null;
 
     //@Override
@@ -109,8 +111,9 @@ public class MayFlowers extends LinearOpMode
         });
     }
 
-    public void findAprilTags(AprilTagDetectionPipeline aprilTagDetectionPipeline){
-        while (!isStarted() && !isStopRequested()) {
+    public void DEATHLOOP(AprilTagDetectionPipeline aprilTagDetectionPipeline){
+        while (!opModeIsActive()) {
+
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if (currentDetections.size() != 0) {
@@ -130,13 +133,16 @@ public class MayFlowers extends LinearOpMode
                             robot.parkingZone = 3;
                         }
 
-                        break;
+                        telemetry.addData("Zone", robot.parkingZone);
+
+
                     }
                 }
 
                 if (tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
+                    //break;
                 } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
@@ -160,7 +166,17 @@ public class MayFlowers extends LinearOpMode
 
             }
 
+            i = i + 1;
+            telemetry.addData("Visionaries Eliminated", i);
+            telemetry.addData("Started?", isStarted());
+            telemetry.addData("Stopped?", isStopRequested());
+            telemetry.addData("Julianna Active?", opModeIsActive());
+            telemetry.update();
+            idle();
         }
+        telemetry.clearAll();
+        telemetry.addData("AprilTags", "We broke the loop!!!");
+        telemetry.update();
     }
 
 

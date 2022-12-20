@@ -32,7 +32,7 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    public double parkingZone;
+    public static double parkingZone;
     public String startingPosition;
 
     //construct robot
