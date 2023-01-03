@@ -10,22 +10,19 @@ public class BlueA2Start extends AutonomousPLUS {
 
         super.runOpMode();
         robot.startingPosition = "Blue A2";
-        //sleepTime = 400;
+        sleepTime = 400;
 
-        MayFlowers.initCamera(hardwareMap, telemetry);
-        robot.parkingZone = 8;
+        MayFlowers.initCamera(hardwareMap, telemetry, this);
 
-        //while (!isStarted() && !isStopRequested()) {
+        while (!isStarted() && !isStopRequested()) {
             MayFlowers.DEATHLOOP(MayFlowers.aprilTagDetectionPipeline);
             telemetry.addData("Zone", robot.parkingZone);
             telemetry.update();
-            //idle();
-       // }
+            idle();
+        }
 
         //Do this to pass inspection.
         waitForStart();
-
-
 
         MayFlowers.AprilTagsUpdate();
 

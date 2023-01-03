@@ -12,10 +12,12 @@ public class RedA5Start extends AutonomousPLUS {
         super.runOpMode();
         robot.startingPosition = "Red A5";
 
+        while (!isStarted() && !isStopRequested()) {
             MayFlowers.DEATHLOOP(MayFlowers.aprilTagDetectionPipeline);
             telemetry.addData("Zone", robot.parkingZone);
             telemetry.update();
             idle();
+        }
 
         waitForStart();
 

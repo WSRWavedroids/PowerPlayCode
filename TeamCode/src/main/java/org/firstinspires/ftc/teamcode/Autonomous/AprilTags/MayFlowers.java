@@ -21,11 +21,9 @@
 
 package org.firstinspires.ftc.teamcode.Autonomous.AprilTags;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -38,20 +36,21 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-public class MayFlowers extends LinearOpMode
+public class MayFlowers
 {
     //INTRODUCE VARIABLES HERE
 
     OpenCvCamera camera;
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    OpMode opMode;
     public AprilTagDetectionPipeline aprilTagDetectionPipeline;
     public Robot robot = new Robot();
 
     static final double FEET_PER_METER = 3.28084;
 
     // Lens intrinsics
-    // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
-    // You will need to do your own calibration for other configurations!
     public double fx = 578.272;
     public double fy = 578.272;
     public double cx = 402.145;
@@ -63,7 +62,6 @@ public class MayFlowers extends LinearOpMode
     public long nativeApriltagPtr;
 
     // Tag ID 1,2,3 from the 36h11 family
-    /*EDIT IF NEEDED!!!*/
 
     int LEFT = 1;
     int MIDDLE = 2;
@@ -73,24 +71,20 @@ public class MayFlowers extends LinearOpMode
 
     AprilTagDetection tagOfInterest = null;
 
-    //@Override
     public void init(Mat frame)
     {
         // Allocate a native context object. See the corresponding deletion in the finalizer
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
     }
 
-    @Override
-    public void runOpMode() {
 
-       robot.init(hardwareMap, telemetry, this);
-       telemetry.setMsTransmissionInterval(50);
+    public void initCamera(HardwareMap hardwareMap, Telemetry telemetry, OpMode opMode){
 
-    }
-
-    public void initCamera(HardwareMap hardwareMap, Telemetry telemetry){
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+        this.opMode = opMode;
+
+        robot.init(hardwareMap, telemetry, opMode);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "CamCam"), cameraMonitorViewId);
@@ -112,7 +106,7 @@ public class MayFlowers extends LinearOpMode
     }
 
     public void DEATHLOOP(AprilTagDetectionPipeline aprilTagDetectionPipeline){
-        while (!opModeIsActive()) {
+
 
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
@@ -142,7 +136,6 @@ public class MayFlowers extends LinearOpMode
                 if (tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
-                    //break;
                 } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
@@ -168,15 +161,8 @@ public class MayFlowers extends LinearOpMode
 
             i = i + 1;
             telemetry.addData("Visionaries Eliminated", i);
-            telemetry.addData("Started?", isStarted());
-            telemetry.addData("Stopped?", isStopRequested());
-            telemetry.addData("Julianna Active?", opModeIsActive());
             telemetry.update();
-            idle();
-        }
-        telemetry.clearAll();
-        telemetry.addData("AprilTags", "We broke the loop!!!");
-        telemetry.update();
+
     }
 
 

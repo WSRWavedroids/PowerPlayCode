@@ -29,9 +29,6 @@
 
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -150,7 +147,6 @@ public class Falafel extends LinearOpMode {
             telemetry.update();
         }
 
-        // Set the encoders for closed loop speed control, and reset the heading.
         resetHeading();
     }
 
@@ -186,17 +182,10 @@ public class Falafel extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
 
-            //if(straight) {
-                frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + moveCounts;
-                frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
-                backLeftTarget = robot.backLeftDrive.getCurrentPosition() + moveCounts;
-                backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
-            //} else {
-                //frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() - moveCounts;
-                //frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
-                //backLeftTarget = robot.backLeftDrive.getCurrentPosition() - moveCounts;
-                //backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
-            //}
+            frontLeftTarget = robot.frontLeftDrive.getCurrentPosition() + moveCounts;
+            frontRightTarget = robot.frontRightDrive.getCurrentPosition() + moveCounts;
+            backLeftTarget = robot.backLeftDrive.getCurrentPosition() + moveCounts;
+            backRightTarget = robot.backRightDrive.getCurrentPosition() + moveCounts;
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
             robot.frontLeftDrive.setTargetPosition(frontLeftTarget);
@@ -226,7 +215,6 @@ public class Falafel extends LinearOpMode {
                 moveRobot(driveSpeed, turnSpeed);
 
                 // Display drive status for the driver.
-
                 sendTelemetry();
             }
 
@@ -373,9 +361,6 @@ public class Falafel extends LinearOpMode {
 
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
-            //telemetry.addData("Target Pos L:R",  "%7d:%7d",      frontLeftTarget,  frontRightTarget);
-            //telemetry.addData("Actual Pos L:R",  "%7d:%7d",      leftDrive.getCurrentPosition(),
-                    //rightDrive.getCurrentPosition());
         } else {
             telemetry.addData("Motion", "Turning");
         }
@@ -384,8 +369,6 @@ public class Falafel extends LinearOpMode {
         telemetry.addData("Error:Steer",  "%5.1f:%5.1f", headingError, turnSpeed);
         telemetry.addData("Wheel Speeds L:R.", "%5.2f : %5.2f", leftSpeed, rightSpeed);
         robot.tellMotorOutput();
-
-        //telemetry.update();
     }
 
     /**

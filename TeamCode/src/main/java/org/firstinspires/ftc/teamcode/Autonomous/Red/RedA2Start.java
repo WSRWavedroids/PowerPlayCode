@@ -12,15 +12,17 @@ public class RedA2Start extends AutonomousPLUS {
         super.runOpMode();
         robot.startingPosition = "Red A2";
 
-        MayFlowers.initCamera(hardwareMap, telemetry);
+        MayFlowers.initCamera(hardwareMap, telemetry, this);
 
+        while (!isStarted() && !isStopRequested()) {
             MayFlowers.DEATHLOOP(MayFlowers.aprilTagDetectionPipeline);
             telemetry.addData("Zone", robot.parkingZone);
             telemetry.update();
             idle();
+        }
 
         //Do this to pass inspection.
-        waitForStart();
+        //waitForStart();
 
         robot.openAndCloseClaw(0);
         prepareNextAction(300);
