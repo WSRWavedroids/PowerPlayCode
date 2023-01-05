@@ -191,26 +191,23 @@ public class AprilShowersRIGHT extends LinearOpMode
         //Place cone on high junction
         robot.openAndCloseClaw(0);
         AP.prepareNextAction(100);
-        AP.moveRobotForward(1100);
-        AP.prepareNextAction(100);
-        AP.moveRobotRight(1550);
-        AP.prepareNextAction(100);
+        AP.moveRobotForward(1100, 50);
+        AP.moveRobotRight(1550, 50);
         AP.moveArm("Up", 0.75);
         AP.prepareNextAction(100);
         robot.openAndCloseClaw(1);
         AP.prepareNextAction(100);
         AP.moveArm("Down", 0.75);
         AP.prepareNextAction(100);
-        AP.moveRobotBackward(50);
-        AP.prepareNextAction(100);
+        AP.moveRobotBackward(50, 50);
 
         //Move to parking zone
         if(robot.parkingZone == 1){
-            AP.moveRobotLeft(3000);
+            AP.moveRobotLeft(3000, 50);
         } else if(robot.parkingZone == 2){
-            AP.moveRobotLeft(2000);
+            AP.moveRobotLeft(2000,50);
         } else if(robot.parkingZone == 3){
-            AP.moveRobotLeft(1000);
+            AP.moveRobotLeft(1000,50);
         }
     }
 

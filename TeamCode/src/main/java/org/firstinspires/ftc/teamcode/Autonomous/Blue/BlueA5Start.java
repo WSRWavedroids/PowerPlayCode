@@ -30,43 +30,37 @@ public class BlueA5Start extends AutonomousPLUS {
         prepareNextAction(300);
         sleepTime = 400;
         moveArm("Up", 0.75);
-        moveRobotForward(1500);
-        prepareNextAction(100);
-        moveRobotBackward(300);
-        prepareNextAction(100);
-        moveRobotRight(1800);
-        prepareNextAction(100);
+        moveRobotForward(1500, 50);
+        moveRobotBackward(300, 50);
+        moveRobotRight(1800, 50);
         sleepTime = (1865);
         moveArm("Up",0.75);
         prepareNextAction(100);
-        moveRobotForward(275);
-        prepareNextAction(100);
+        moveRobotForward(275, 50);
         robot.openAndCloseClaw(0.3);
-        prepareNextAction(100);
-        moveRobotBackward(150);
-        prepareNextAction(100);
+        prepareNextAction(50);
+        moveRobotBackward(150, 50);
         moveArm("Down",0.75);
         prepareNextAction(100);
 
         if (robot.parkingZone == 1){
-            moveRobotLeft(600);
+            moveRobotLeft(600, 50);
 
         } else if (robot.parkingZone == 2){
 
-            moveRobotLeft(1400);
+            moveRobotLeft(1400, 50);
 
         } else if (robot.parkingZone == 3){
 
-            moveRobotLeft(2400);
+            moveRobotLeft(2400, 50);
 
         } else {
 
-            moveRobotLeft(600);
+            moveRobotLeft(600, 50);
 
         }
 
-        prepareNextAction(100);
-        moveRobotForward(740);
+        moveRobotForward(740, 50);
 
     }
 }

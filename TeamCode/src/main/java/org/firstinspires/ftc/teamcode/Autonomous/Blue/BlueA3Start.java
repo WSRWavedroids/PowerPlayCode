@@ -17,21 +17,18 @@ public class BlueA3Start extends AutonomousPLUS {
 
         robot.openAndCloseClaw(0);
         prepareNextAction(100);
-        moveRobotForward(1100);
-        prepareNextAction(100);
-        moveRobotLeft(1550);
-        prepareNextAction(100);
+        moveRobotForward(1100, 50);
+        moveRobotLeft(1550, 50);
         moveArm("up",0.75);
         prepareNextAction(100);
         robot.openAndCloseClaw(1);
         prepareNextAction(100);
         moveArm("down",0.75);
         prepareNextAction(100);
-        moveRobotBackward(50);
-        prepareNextAction(100);
-        moveRobotRight(250);
-        prepareNextAction(100);
-        moveRobotForward(300);
+        moveRobotBackward(50, 50);
+        moveRobotRight(250, 50);
+        moveRobotForward(300,50);
+
 
 
     }

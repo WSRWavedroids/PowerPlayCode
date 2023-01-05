@@ -53,7 +53,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public double speed = 0.4;
     public int sleepTime;
-
+    public long pause;
 
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
@@ -73,7 +73,7 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
     //I think the setTargets Function is broken. Motors don't stop at the right place
-    public void moveRobotForward(int ticks) {
+    public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()){
             robot.setTargets("Backward", ticks);
             robot.positionRunningMode();
@@ -89,10 +89,12 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.stopAllMotors();
         robot.encoderRunningMode();
         robot.stopAllMotors();
+        sleep(pause);
+        robot.encoderReset();
     }
 
 
-    public void moveRobotBackward(int ticks){
+    public void moveRobotBackward(int ticks, long pause){
         if (opModeIsActive()){
             robot.setTargets("Forward", ticks);
             robot.positionRunningMode();
@@ -106,10 +108,12 @@ public class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
         }
 
     }
-    public void moveRobotLeft(int ticks) {
+    public void moveRobotLeft(int ticks, long pause) {
 
         if (opModeIsActive()){
             robot.setTargets("Right", ticks);
@@ -124,10 +128,12 @@ public class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
         }
     }
 
-    public void moveRobotRight(int ticks) {
+    public void moveRobotRight(int ticks, long pause) {
 
         if (opModeIsActive()) {
             robot.setTargets("Left", ticks);
@@ -142,10 +148,12 @@ public class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
         }
     }
 
-    public void turnRobotRight(int ticks) {
+    public void turnRobotRight(int ticks, long pause) {
 
         if (opModeIsActive()) {
             robot.setTargets("Turn Right", ticks);
@@ -160,10 +168,12 @@ public class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
         }
     }
 
-    public void turnRobotLeft(int ticks) {
+    public void turnRobotLeft(int ticks, long pause) {
 
         if (opModeIsActive()) {
             robot.setTargets("Turn Left", ticks);
@@ -178,8 +188,10 @@ public class AutonomousPLUS extends LinearOpMode {
 
             robot.stopAllMotors();
             robot.encoderRunningMode();
-        }
+            sleep(pause);
+            robot.encoderReset();
 
+        }
     }
 
 
@@ -201,74 +213,64 @@ public class AutonomousPLUS extends LinearOpMode {
         }
     }
 
-    public void moveToParkingZone(){
+    public void moveArmE(String direction, int distance){
+        if (direction == "Up"){
+            robot.slide.setDirection(DcMotor.Direction.REVERSE);
+            if (opModeIsActive()) {
+                robot.setTargets("Arm", distance);
+                robot.positionRunningMode();
+                robot.powerSet(0.75);
 
-        if (robot.parkingZone == 1){
+                while (opModeIsActive() &&
+                        robot.isWheelsBusy()) {
+                    robot.tellMotorOutput();
+                    //nothings here
+                }
 
-            moveRobotLeft(2000);
-            prepareNextAction(200);
-            moveRobotForward(3000);
-            prepareNextAction(200);
+                robot.encoderRunningMode();
+            }
+            robot.slide.setPower(0.1);
 
-        } else if (robot.parkingZone == 2){
+        } else if (direction == "Down"){
+            robot.slide.setDirection(DcMotor.Direction.FORWARD);
+            if (opModeIsActive()) {
+                robot.setTargets("Arm", distance);
+                robot.positionRunningMode();
+                robot.powerSet(0.5);
 
-            moveRobotForward(2000);
-            prepareNextAction(200);
+                while (opModeIsActive() &&
+                        robot.isWheelsBusy()) {
+                    robot.tellMotorOutput();
+                    //nothings here
+                }
 
-        } else if (robot.parkingZone == 3){
-
-            moveRobotRight(2000);
-            prepareNextAction(200);
-            moveRobotForward(3000);
-            prepareNextAction(200);
+                robot.encoderRunningMode();
+            }
+            robot.slide.setPower(0.1);
         }
-
 
     }
 
-    public void identifyAprilTags(){
-        //MayFlowers.findAprilTags();
-    }
+    public void moveTurntable(String direction, int distance){
 
-    public void placeHighCone(){
+        if (direction == "Left") {
+            robot.turntable.setDirection(DcMotor.Direction.FORWARD); //Check on this...
 
-        if(robot.startingPosition == "Blue A2" || robot.startingPosition == "Red A5") {
-
-            robot.openAndCloseClaw(0);
-            prepareNextAction(100);
-            moveRobotForward(1100);
-            prepareNextAction(100);
-            moveRobotLeft(1550);
-            prepareNextAction(100);
-            moveArm("Up", 0.75);
-            prepareNextAction(100);
-            robot.openAndCloseClaw(1);
-            prepareNextAction(100);
-            moveArm("Down", 0.75);
-            prepareNextAction(100);
-            moveRobotBackward(50);
-            prepareNextAction(100);
-
-        } else if(robot.startingPosition == "Blue A5" || robot.startingPosition == "Red A2"){
-
-            robot.openAndCloseClaw(0);
-            prepareNextAction(100);
-            moveRobotForward(1100);
-            prepareNextAction(100);
-            moveRobotRight(1550);
-            prepareNextAction(100);
-            moveArm("up",0.75);
-            prepareNextAction(100);
-            robot.openAndCloseClaw(1);
-            prepareNextAction(100);
-            moveArm("down",0.75);
-            prepareNextAction(100);
-            moveRobotBackward(50);
-            prepareNextAction(100);
-
+        } else if (direction == "Right"){
+            robot.turntable.setDirection(DcMotor.Direction.REVERSE); //Check on this...
         }
+
+            if (opModeIsActive()){
+                robot.setTargets("Turntable", distance);
+                robot.positionRunningMode();
+                robot.powerSet(0.45);
+
+                while (opModeIsActive() && robot.turntable.isBusy()){
+                    robot.tellMotorOutput();
+                }
+
+                robot.encoderRunningMode();
+            }
     }
 
 }
-
-

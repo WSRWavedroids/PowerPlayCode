@@ -112,26 +112,21 @@ public class dontLookEmily extends AutonomousPLUS {
 
         telemetry.addData("Slide to the", "left");
 
-        moveRobotLeft(960);
-        prepareNextAction(200);
+        moveRobotLeft(960,200);
 
 //slide to right
 
         telemetry.addData("Slide to the", "right");
 
-        moveRobotRight(960);
-        prepareNextAction(200);
+        moveRobotRight(960,200);
 
         //Criss cross
 
         telemetry.addData("criss", "cross");
 
-        turnRobotRight(200);
-        prepareNextAction(50);
-        turnRobotLeft(400);
-        prepareNextAction(50);
-        turnRobotRight(200);
-        prepareNextAction(200);
+        turnRobotRight(200,50);
+        turnRobotLeft(400,50);
+        turnRobotRight(200,200);
 
         //Hop this time
 
@@ -145,21 +140,17 @@ public class dontLookEmily extends AutonomousPLUS {
 
         telemetry.addData("Cha Cha", "real smooth");
 
-        moveRobotBackward(200);
-        prepareNextAction(50);
-        turnRobotRight(200);
-        prepareNextAction(25);
-        turnRobotLeft(400);
-        prepareNextAction(25);
-        turnRobotRight(200);
-        moveRobotForward(200);
+        moveRobotBackward(200,50);
+        turnRobotRight(200,50);
+        turnRobotLeft(400,50);
+        turnRobotRight(200,50);
+        moveRobotForward(200,50);
 
         //Take it back now ya'll
 
         telemetry.addData("Take it back now","ya'll");
 
-        moveRobotBackward(200);
-        prepareNextAction(50);
+        moveRobotBackward(200,50);
 
 
     }

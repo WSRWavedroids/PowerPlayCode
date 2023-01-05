@@ -25,44 +25,38 @@ public class RedA5Start extends AutonomousPLUS {
         prepareNextAction(300);
         sleepTime = 400;
         moveArm("Up", 0.75);
-        moveRobotForward(1500);
-        prepareNextAction(100);
-        moveRobotBackward(300);
-        prepareNextAction(100);
-        moveRobotLeft(1800);
-        prepareNextAction(100);
+        moveRobotForward(1500, 50);
+        moveRobotBackward(300, 50);
+        moveRobotLeft(1800, 50);
         sleepTime = (1865);
         moveArm("Up",0.75);
         prepareNextAction(100);
-        moveRobotForward(275);
-        prepareNextAction(100);
+        moveRobotForward(275, 50);
         robot.openAndCloseClaw(0.3);
         prepareNextAction(100);
-        moveRobotBackward(150);
-        prepareNextAction(100);
+        moveRobotBackward(150, 50);
         moveArm("Down",0.75);
         prepareNextAction(100);
 
         if (robot.parkingZone == 1){
 
-            moveRobotRight(600);
+            moveRobotRight(600, 50);
 
         } else if (robot.parkingZone == 2){
 
-            moveRobotRight(1400);
+            moveRobotRight(1400, 50);
 
         } else if (robot.parkingZone == 3){
 
-            moveRobotRight(2400);
+            moveRobotRight(2400,50);
 
         } else {
 
-            moveRobotRight(600);
+            moveRobotRight(600,50);
 
         }
 
-        prepareNextAction(100);
-        moveRobotForward(740);
+        moveRobotForward(740,50);
 
 
     }

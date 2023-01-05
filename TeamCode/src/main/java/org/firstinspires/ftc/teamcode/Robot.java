@@ -142,7 +142,16 @@ public class Robot {
             frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+
+        } else if (direction == "Arm"){
+            slide.setTargetPosition(ticks + slide.getCurrentPosition());
+
+        } else if (direction == "Turntable"){
+            turntable.setTargetPosition(-ticks + turntable.getCurrentPosition()
+
+            );
         }
+
     }
 
     public void positionRunningMode(){
