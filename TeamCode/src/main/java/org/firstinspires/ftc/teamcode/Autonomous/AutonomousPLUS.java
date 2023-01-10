@@ -214,40 +214,54 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
     public void moveArmE(String direction, int distance){
+        robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if (direction == "Up"){
             robot.slide.setDirection(DcMotor.Direction.REVERSE);
             if (opModeIsActive()) {
-                robot.setTargets("Arm", distance);
-                robot.positionRunningMode();
-                robot.powerSet(0.75);
+                //robot.setTargets("Arm", distance);
+                robot.slide.setTargetPosition(Math.abs(distance + robot.slide.getCurrentPosition()));
+                robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.slide.setPower(0.75);
 
-                while (opModeIsActive() &&
-                        robot.isWheelsBusy()) {
+                while (opModeIsActive()) {
                     robot.tellMotorOutput();
-                    //nothings here
-                }
+                    telemetry.addData("Arm","Arm is climbing");
+                    telemetry.update();
 
-                robot.encoderRunningMode();
+                    if (Math.abs(robot.slide.getCurrentPosition()) == Math.abs(robot.slide.getTargetPosition())){
+                        break;
+                    }
+
+                }
+                robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                telemetry.addData("Arm","Arm has peaked!");
+                telemetry.update();
             }
             robot.slide.setPower(0.1);
+            telemetry.addData("Arm","Arm has reached the pinnacle");
+            telemetry.update();
 
         } else if (direction == "Down"){
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
             if (opModeIsActive()) {
                 robot.setTargets("Arm", distance);
-                robot.positionRunningMode();
-                robot.powerSet(0.5);
+                robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.slide.setPower(0.5);
 
                 while (opModeIsActive() &&
-                        robot.isWheelsBusy()) {
+                        robot.slide.isBusy()) {
                     robot.tellMotorOutput();
                     //nothings here
                 }
 
-                robot.encoderRunningMode();
+                robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             robot.slide.setPower(0.1);
         }
+
+        robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        telemetry.addData("Arm","Arm is reset");
+        telemetry.update();
 
     }
 
@@ -262,15 +276,16 @@ public class AutonomousPLUS extends LinearOpMode {
 
             if (opModeIsActive()){
                 robot.setTargets("Turntable", distance);
-                robot.positionRunningMode();
+                robot.turntable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.powerSet(0.45);
 
                 while (opModeIsActive() && robot.turntable.isBusy()){
                     robot.tellMotorOutput();
                 }
 
-                robot.encoderRunningMode();
+                robot.turntable.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
+        robot.turntable.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 }

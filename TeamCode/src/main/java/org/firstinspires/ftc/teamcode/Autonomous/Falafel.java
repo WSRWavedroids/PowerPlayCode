@@ -30,9 +30,12 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -86,7 +89,7 @@ import org.firstinspires.ftc.teamcode.Robot;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-public class Falafel extends LinearOpMode {
+public class Falafel {
 
     public Robot robot = new Robot();
 
@@ -106,6 +109,11 @@ public class Falafel extends LinearOpMode {
     public int     frontLeftTarget    = 0;
     public int     frontRightTarget   = 0;
     boolean straight;
+
+    HardwareMap hardwareMap;
+    Telemetry telemetry;
+    OpMode opMode;
+
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -133,21 +141,20 @@ public class Falafel extends LinearOpMode {
     static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable
 
 
-    @Override
-    public void runOpMode() {
+    //@Override
+    public void startWorking(HardwareMap hardwareMap, Telemetry telemetry, OpMode opMode) {
+
+        this.hardwareMap = hardwareMap;
+        this.telemetry = telemetry;
+        this.opMode = opMode;
+
 
         // Initialize the drive system variables.
-        robot.init(hardwareMap, telemetry, this);
+        robot.init(hardwareMap, telemetry, opMode);
         robot.encoderReset();
         robot.encoderRunningMode();
 
-        // Wait for the game to start (Display Gyro value while waiting)
-        while (opModeInInit()) {
-            telemetry.addData(">", "Robot Heading = %4.0f", getRawHeading());
-            telemetry.update();
-        }
-
-        resetHeading();
+        //resetHeading();
     }
 
     /*
@@ -176,7 +183,7 @@ public class Falafel extends LinearOpMode {
                               double heading) {
 
         // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+
             straight = true;
 
             // Determine new target position, and pass to motor controller
@@ -201,8 +208,7 @@ public class Falafel extends LinearOpMode {
             moveRobot(maxDriveSpeed, 0);
 
             // keep looping while we are still active, and BOTH motors are running.
-            while (opModeIsActive() &&
-                   (robot.isWheelsBusy())) {
+            while (robot.isWheelsBusy()) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -222,7 +228,7 @@ public class Falafel extends LinearOpMode {
             moveRobot(0, 0);
             robot.encoderReset();
             robot.encoderRunningMode();
-        }
+
     }
 
     /**
@@ -242,7 +248,7 @@ public class Falafel extends LinearOpMode {
         getSteeringCorrection(heading, P_DRIVE_GAIN);
 
         // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
+        while ((Math.abs(headingError) > HEADING_THRESHOLD)) {
 
             // Determine required steering to keep on heading
             turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
@@ -280,7 +286,7 @@ public class Falafel extends LinearOpMode {
         holdTimer.reset();
 
         // keep looping while we have time remaining.
-        while (opModeIsActive() && (holdTimer.time() < holdTime)) {
+        while ((holdTimer.time() < holdTime)) {
             // Determine required steering to keep on heading
             turnSpeed = getSteeringCorrection(heading, P_TURN_GAIN);
 

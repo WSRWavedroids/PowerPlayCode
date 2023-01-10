@@ -51,6 +51,7 @@ public class FunBot {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+
         //colorSensor = hardwareMap.get(ColorSensor.class, "betterMason");
 
 
@@ -63,9 +64,9 @@ public class FunBot {
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change la
         //Flipped the reverse and forward values
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.

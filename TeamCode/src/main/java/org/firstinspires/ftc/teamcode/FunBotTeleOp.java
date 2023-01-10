@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -31,7 +28,7 @@ public class FunBotTeleOp extends OpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
     private double speed = 0.75;
-    public Robot robot = new Robot();
+    public FunBot FunBot = new FunBot();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -40,7 +37,7 @@ public class FunBotTeleOp extends OpMode {
     public void init() {
 
         // Call the initialization protocol from the Robot class.
-        robot.init(hardwareMap, telemetry, this);
+        FunBot.init(hardwareMap, telemetry, this);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -74,7 +71,7 @@ public class FunBotTeleOp extends OpMode {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        robot.tellMotorOutput();
+        //FunBot.tellMotorOutput();
 
 
         // This section checks what buttons on the Dpad are being pressed and changes the speed accordingly.
@@ -123,10 +120,10 @@ public class FunBotTeleOp extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
-        robot.frontLeftDrive.setPower(-motorPowers[0]);
-        robot.frontRightDrive.setPower(-motorPowers[1]);
-        robot.backLeftDrive.setPower(-motorPowers[2]);
-        robot.backRightDrive.setPower(-motorPowers[3]);
+        FunBot.frontLeftDrive.setPower(motorPowers[0]);
+        FunBot.frontRightDrive.setPower(motorPowers[1]);
+        FunBot.backLeftDrive.setPower(motorPowers[2]);
+        FunBot.backRightDrive.setPower(motorPowers[3]);
     }
 
     private void singleJoystickDrive() {
@@ -141,8 +138,8 @@ public class FunBotTeleOp extends OpMode {
         float[] motorPowers = new float[4];
         motorPowers[0] = (leftY + leftX + rightX); //swapped  to +
         motorPowers[1] = (leftY - leftX - rightX);//swapped  to -
-        motorPowers[2] = (leftY - leftX + rightX);
-        motorPowers[3] = (leftY + leftX - rightX);
+        motorPowers[2] = (leftY + leftX + rightX);
+        motorPowers[3] = (leftY - leftX - rightX);
 
         float max = getLargestAbsVal(motorPowers);
         if (max < 1) {

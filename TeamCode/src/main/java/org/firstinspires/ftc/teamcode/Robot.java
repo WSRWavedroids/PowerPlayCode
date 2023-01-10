@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,7 +31,7 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    public double parkingZone;
+    public static double parkingZone;
     public String startingPosition;
 
     //construct robot
@@ -57,7 +56,6 @@ public class Robot {
         slide = hardwareMap.get(DcMotor.class, "slide");
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
-        //gyro = hardwareMap.get(I2cDevice.class, "imu");
 
 
         this.frontLeftDrive = frontLeftDrive;
@@ -67,7 +65,6 @@ public class Robot {
         this.slide = slide;
         this.turntable = turntable;
         this.whiteClaw = whiteClaw;
-        //this.colorSensor = colorSensor;
 
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -132,24 +129,22 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Right") {
-            frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Left") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Arm"){
             slide.setTargetPosition(ticks + slide.getCurrentPosition());
 
         } else if (direction == "Turntable"){
-            turntable.setTargetPosition(-ticks + turntable.getCurrentPosition()
-
-            );
+            turntable.setTargetPosition(-ticks + turntable.getCurrentPosition());
         }
 
     }
@@ -201,9 +196,8 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-        telemetry.addData("Motors", "Slide Arm (%.2f)", slide.getPower());
-        telemetry.addData("Motors", "Turntable (%.2f)", turntable.getPower());
-        //telemetry.addData("Zone", "Zone(%d)", parkingZone);
+        telemetry.addData("Motors", String.format("Arm Power (%.2f) Arm Location (%d) Arm Target (%d)", slide.getPower(), slide.getCurrentPosition(), slide.getTargetPosition()));
+        telemetry.addData("Motors", String.format("Turntable (%.2f) Turntable Location (%d) Turntable Target (%d)", turntable.getPower(), turntable.getCurrentPosition(), turntable.getTargetPosition()));
 
         telemetry.update();
     }
