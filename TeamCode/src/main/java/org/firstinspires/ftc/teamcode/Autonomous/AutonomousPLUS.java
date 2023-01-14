@@ -29,13 +29,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.MayFlowers;
 
@@ -45,7 +43,6 @@ import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.MayFlowers;
  * Previous programmers really sucked at explaining what any of this meant, so we're trying to do better.
  */
 
-//todo Create function to convert tick values based on speed.
 public class AutonomousPLUS extends LinearOpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -53,8 +50,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public double speed = 0.4;
     public int sleepTime;
-    public long pause;
-
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     public Robot robot = new Robot();
@@ -65,25 +60,22 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.init(hardwareMap, telemetry, this);
         robot.encoderReset();
         robot.encoderRunningMode();
-
     }
 
-    public void makeItWork(HardwareMap hardwareMap, Telemetry telemetry){
+    public void makeItWork(HardwareMap hardwareMap, Telemetry telemetry) {
         robot.init(hardwareMap, telemetry, this);
     }
 
     //I think the setTargets Function is broken. Motors don't stop at the right place
     public void moveRobotForward(int ticks, long pause) {
-        if (opModeIsActive()){
+        if (opModeIsActive()) {
             robot.setTargets("Backward", ticks);
             robot.positionRunningMode();
         }
         robot.powerSet(speed);
 
-        while (opModeIsActive() &&
-                robot.isWheelsBusy()) {
+        while (opModeIsActive() && robot.isWheelsBusy()) {
             robot.tellMotorOutput();
-            //nothings here
         }
 
         robot.stopAllMotors();
@@ -93,17 +85,14 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.encoderReset();
     }
 
-
-    public void moveRobotBackward(int ticks, long pause){
-        if (opModeIsActive()){
+    public void moveRobotBackward(int ticks, long pause) {
+        if (opModeIsActive()) {
             robot.setTargets("Forward", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
-            while (opModeIsActive() &&
-                    robot.isWheelsBusy()) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
                 robot.tellMotorOutput();
-                //nothings here
             }
 
             robot.stopAllMotors();
@@ -113,17 +102,16 @@ public class AutonomousPLUS extends LinearOpMode {
         }
 
     }
+
     public void moveRobotLeft(int ticks, long pause) {
 
-        if (opModeIsActive()){
+        if (opModeIsActive()) {
             robot.setTargets("Right", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
-            while (opModeIsActive() &&
-                    robot.isWheelsBusy()) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
                 robot.tellMotorOutput();
-                //nothings here
             }
 
             robot.stopAllMotors();
@@ -140,10 +128,8 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.positionRunningMode();
             robot.powerSet(speed);
 
-            while (opModeIsActive() &&
-                    robot.isWheelsBusy()) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
                 robot.tellMotorOutput();
-                //nothings here
             }
 
             robot.stopAllMotors();
@@ -160,10 +146,8 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.positionRunningMode();
             robot.powerSet(speed);
 
-            while (opModeIsActive() &&
-                    robot.isWheelsBusy()) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
                 robot.tellMotorOutput();
-                //nothings here
             }
 
             robot.stopAllMotors();
@@ -180,10 +164,8 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.positionRunningMode();
             robot.powerSet(speed);
 
-            while (opModeIsActive() &&
-                    robot.isWheelsBusy()) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
                 robot.tellMotorOutput();
-                //nothings here
             }
 
             robot.stopAllMotors();
@@ -194,64 +176,60 @@ public class AutonomousPLUS extends LinearOpMode {
         }
     }
 
-
-    public void prepareNextAction(long pause){
+    public void prepareNextAction(long pause) {
         sleep(pause);
         robot.encoderReset();
     }
 
-    public void moveArm(String direction, double power){
-        if (direction == "Up"){
+    public void moveArm(String direction, double power) {
+        if (direction == "Up") {
             robot.slide.setDirection(DcMotor.Direction.REVERSE);
             robot.slide.setPower(0.75);
             sleep(sleepTime);
             robot.slide.setPower(0.1);
             sleep(1550);
-        } else if (direction == "Down"){
+        } else if (direction == "Down") {
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
             robot.slide.setPower(0.5);
         }
     }
 
-    public void moveArmE(String direction, int distance){
+    public void moveArmE(String direction, int distance) {
         robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        if (direction == "Up"){
-            robot.slide.setDirection(DcMotor.Direction.REVERSE);
+        if (direction == "Up") {
+            //robot.slide.setDirection(DcMotor.Direction.REVERSE);
             if (opModeIsActive()) {
-                //robot.setTargets("Arm", distance);
-                robot.slide.setTargetPosition(Math.abs(distance + robot.slide.getCurrentPosition()));
+                robot.slide.setTargetPosition(-distance + Math.abs(robot.slide.getCurrentPosition()));
                 robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slide.setPower(0.75);
 
                 while (opModeIsActive()) {
                     robot.tellMotorOutput();
-                    telemetry.addData("Arm","Arm is climbing");
+                    telemetry.addData("Arm", "Arm is climbing");
                     telemetry.update();
 
-                    if (Math.abs(robot.slide.getCurrentPosition()) == Math.abs(robot.slide.getTargetPosition())){
+                    if (Math.abs(robot.slide.getCurrentPosition()) == Math.abs(robot.slide.getTargetPosition())) {
                         break;
                     }
 
                 }
                 robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                telemetry.addData("Arm","Arm has peaked!");
+                telemetry.addData("Arm", "Arm has peaked!");
                 telemetry.update();
             }
             robot.slide.setPower(0.1);
-            telemetry.addData("Arm","Arm has reached the pinnacle");
+            telemetry.addData("Arm", "Arm has reached the pinnacle");
             telemetry.update();
 
-        } else if (direction == "Down"){
+        } else if (direction == "Down") {
             robot.slide.setDirection(DcMotor.Direction.FORWARD);
             if (opModeIsActive()) {
                 robot.setTargets("Arm", distance);
                 robot.slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.slide.setPower(0.5);
 
-                while (opModeIsActive() &&
-                        robot.slide.isBusy()) {
+                while (opModeIsActive() && robot.slide.isBusy()) {
                     robot.tellMotorOutput();
-                    //nothings here
                 }
 
                 robot.slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -260,32 +238,31 @@ public class AutonomousPLUS extends LinearOpMode {
         }
 
         robot.slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telemetry.addData("Arm","Arm is reset");
+        telemetry.addData("Arm", "Arm is reset");
         telemetry.update();
 
     }
 
-    public void moveTurntable(String direction, int distance){
+    public void moveTurntable(String direction, int distance) {
 
         if (direction == "Left") {
             robot.turntable.setDirection(DcMotor.Direction.FORWARD); //Check on this...
 
-        } else if (direction == "Right"){
+        } else if (direction == "Right") {
             robot.turntable.setDirection(DcMotor.Direction.REVERSE); //Check on this...
         }
 
-            if (opModeIsActive()){
-                robot.setTargets("Turntable", distance);
-                robot.turntable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.powerSet(0.45);
+        if (opModeIsActive()) {
+            robot.setTargets("Turntable", distance);
+            robot.turntable.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.powerSet(0.45);
 
-                while (opModeIsActive() && robot.turntable.isBusy()){
-                    robot.tellMotorOutput();
-                }
-
-                robot.turntable.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            while (opModeIsActive() && robot.turntable.isBusy()) {
+                robot.tellMotorOutput();
             }
+
+            robot.turntable.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
         robot.turntable.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
 }

@@ -26,12 +26,13 @@ public class BlueA2Start extends AutonomousPLUS {
             idle();
         }
 
-        //Do this to pass inspection.
+        //Do this to pass inspection.o
         waitForStart();
 
-        MayFlowers.AprilTagsUpdate();
+        //MayFlowers.AprilTagsUpdate();
 
         robot.openAndCloseClaw(0);
+        prepareNextAction(300);
         sleepTime = 400;
         moveArm("Up", 0.75);
         //moveArmE("Up", 40);
@@ -40,13 +41,16 @@ public class BlueA2Start extends AutonomousPLUS {
         moveRobotLeft(1825, 50);
         sleepTime = (1800);
         moveArm("Up",0.75);
-        //moveArmE("Up", 1500);
+        speed = 0.25;
         moveRobotForward(275, 50);
-        robot.openAndCloseClaw(0.3);
-        moveRobotBackward(150, 50);
         moveArm("Down",0.75);
+        sleep(50);
+        robot.slide.setPower(0.1);
+        robot.openAndCloseClaw(0.3);
+        prepareNextAction(25);
+        moveRobotBackward(150, 50);
         prepareNextAction(100);
-        //moveArmE("Down",1500);
+        speed = 0.5;
 
         if (robot.parkingZone == 1){
 
@@ -54,11 +58,11 @@ public class BlueA2Start extends AutonomousPLUS {
 
         } else if (robot.parkingZone == 2){
 
-           moveRobotRight(1400, 50);
+           moveRobotRight(1900, 50);
 
         } else if (robot.parkingZone == 3){
 
-            moveRobotRight(2400, 50);
+            moveRobotRight(3200, 50);
 
         } else {
 

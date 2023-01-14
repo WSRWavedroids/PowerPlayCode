@@ -4,15 +4,13 @@ import android.annotation.SuppressLint;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.Objects;
 
 public class Robot {
 
@@ -24,9 +22,7 @@ public class Robot {
     public DcMotor turntable;
     public Servo whiteClaw;
     public Telemetry telemetry;
-    public I2cDevice gyro;
     public BNO055IMU imu;
-    //public ColorSensor colorSensor;
 
     //init and declare war
     public OpMode opmode;
@@ -38,8 +34,6 @@ public class Robot {
     public Robot() {
 
     }
-
-
 
     //Initialize motors and servos
     public void init(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -57,15 +51,13 @@ public class Robot {
         turntable = hardwareMap.get(DcMotor.class, "turntable");
         whiteClaw = hardwareMap.get(Servo.class, "whiteClaw");
 
-
-        this.frontLeftDrive = frontLeftDrive;
-        this.frontRightDrive = frontRightDrive;
-        this.backLeftDrive = backLeftDrive;
-        this.backRightDrive = backRightDrive;
-        this.slide = slide;
-        this.turntable = turntable;
-        this.whiteClaw = whiteClaw;
-
+        //this.frontLeftDrive = frontLeftDrive;
+        //this.frontRightDrive = frontRightDrive;
+        //this.backLeftDrive = backLeftDrive;
+        //this.backRightDrive = backRightDrive;
+        //this.slide = slide;
+        //this.turntable = turntable;
+        //this.whiteClaw = whiteClaw;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -73,7 +65,6 @@ public class Robot {
         imu.initialize(parameters);
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
-        //Flipped the reverse and forward values
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -84,7 +75,6 @@ public class Robot {
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
         telemetry.addData("Status", "Initialized");
 
@@ -104,7 +94,7 @@ public class Robot {
 
     public void setTargets(String direction, int ticks) {
 
-        if (direction == "Right"){
+        if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
@@ -115,7 +105,7 @@ public class Robot {
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
-//Changed negative ticks to positive
+
         } else if (direction == "Forward"){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
@@ -155,7 +145,6 @@ public class Robot {
         backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-
 
     public void powerSet(double speed) {
         frontLeftDrive.setPower(speed);
