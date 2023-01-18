@@ -143,7 +143,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void turnRobotRight(int ticks) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Right", ticks);
+            robot.setTargets("RightTurn", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -161,7 +161,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void turnRobotLeft(int ticks) {
 
         if (opModeIsActive()) {
-            robot.setTargets("left", ticks);
+            robot.setTargets("LeftTurn", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -188,11 +188,11 @@ public class AutonomousPLUS extends LinearOpMode {
            //switched setPower and setDirection
             robot.slide.setDirection(DcMotor.Direction.REVERSE); //flipped to reverse and adjsted values to match teleop
             robot.slide.setPower(.75); //power is set in other program
-            sleep(sleepTime);// High pole stop at 1755 mil 35 inches, 400 cone stack 1448 is medium, short is 800
+            sleep(sleepTime);// High pole stop at 1755 mil 35 inches, 400 cone stack, 1448 is medium, short is 800
             robot.slide.setPower(0.1); //holds arm
-            sleep(1450);//remove if no work
+            sleep(425);//remove if no work
 //1 inch = 60.7 miliseconds
-
+//Change out sleeptime for ticks
 
         } else if (direction == "Down"){
             robot.slide.setDirection(DcMotor.Direction.FORWARD);//flipped to forward and matched values to teleop.
@@ -205,48 +205,11 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.slide.setPower(0.1);
     }
 
-    public void moveToParkingZone(String startingPosition){
-
-        //robot.checkForColor();
-
-        if (startingPosition == "Blue A2"){
-
-
-
-        } else if (startingPosition == "Blue A5"){
-
-        } else if (startingPosition == "Red A2"){
-
-            if (robot.parkingZone == 1){
-
-                moveRobotLeft(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 2){
-
-                moveRobotForward(2000);
-                prepareNextAction(200);
-
-            } else if (robot.parkingZone == 3){
-
-                moveRobotRight(2000);
-                prepareNextAction(200);
-                moveRobotForward(3000);
-                prepareNextAction(200);
-
-            }
-
-        } else if (startingPosition == "Red A5"){
-
-
-
-        }
 
 
 
 
-    }}
+
+    }
 
 

@@ -123,7 +123,22 @@ public class Robot {
             backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 //Changed negative ticks to positive
-        } else if (direction == "Forward"){
+        }
+        if (direction == "RightTurn"){
+            frontLeftDrive.setTargetPosition(-ticks - frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+
+        } else if (direction == "LeftTurn") {
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(-ticks - frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+//Changed negative ticks to positive
+        }
+        //if not work comment o`ut
+        else if (direction == "Forward"){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());

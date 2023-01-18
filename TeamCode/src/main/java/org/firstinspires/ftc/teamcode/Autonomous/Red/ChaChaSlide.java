@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPLUS;
 
 //DON'T LOOK I MEAN IT
 @Autonomous(group = "Red", name = "dontLookEmily (Red Terminal)")
-public class dontLookEmily extends AutonomousPLUS {
+public class ChaChaSlide extends AutonomousPLUS {
 
 
 
@@ -147,7 +147,7 @@ public class dontLookEmily extends AutonomousPLUS {
         telemetry.addData("1 hop this","time");
         sleepTime = 400;
         moveArm("Up",.85);
-        prepareNextAction(45);
+        prepareNextAction(15);
         moveArm("Down", .5);
         prepareNextAction(100);
 
@@ -156,7 +156,7 @@ public class dontLookEmily extends AutonomousPLUS {
         telemetry.addData("Cha Cha", "real smooth");
 
         moveRobotBackward(200);
-        prepareNextAction(50);
+        prepareNextAction(25);
         turnRobotRight(200);
         prepareNextAction(25);
         turnRobotLeft(400);
@@ -171,12 +171,16 @@ public class dontLookEmily extends AutonomousPLUS {
         telemetry.addData("Take it back now","ya'll");
 
         moveRobotForward(200);
-        prepareNextAction(50);
+        prepareNextAction(25);
         moveRobotBackward(200);
-        prepareNextAction(45);
+        prepareNextAction(25);
 
         //Everybody clap your hands
         telemetry.addData("Everybody", "Clap your hands");
+        robot.openAndCloseClaw(0);
+        prepareNextAction(10);
+        robot.openAndCloseClaw(.3);
+        prepareNextAction(10);
         robot.openAndCloseClaw(0);
         prepareNextAction(10);
         robot.openAndCloseClaw(.3);
